@@ -41,7 +41,19 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0;
 }
 
-.work_tags p{
-    font-weight: 600;
+.work_tags {
+    font-size: 80%;
+    margin-bottom: 0;
     text-transform: uppercase;
+}
+
+.client img {
+    width: 100%;
+    height: auto;
+}
+
+.footer p {
+    letter-spacing: .4em;
+    font-size: 80%;
+    color: #c5c5c5;
 }
