@@ -1,0 +1,47 @@
+@font-face {
+    font-family: "Gotham Ultra";
+    src: url('/fonts/Gotham-UltraItalic.woff') format('woff');
+}
+
+body {
+    color: #313131;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Gotham Ultra';
+    text-transform: uppercase;
+    }
+
+.navbar {
+    padding: .5rem 0rem;
+}
+
+.navbar-light .navbar-brand {
+    color: #313131;
+}
+
+.navbar-brand {
+    font-family: 'Playfair Display';
+    font-size: 1.8em;
+    padding: 0;
+}
+
+.nav-item {
+    text-transform: uppercase;
+    font-size: 80%;
+}
+
+.work-grid h3 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.work img {
+    width: 100%;
+    height: auto;
+}
+
+.work h6 {
+    margin-top: 1em;
+    margin-bottom: 0;
+}
