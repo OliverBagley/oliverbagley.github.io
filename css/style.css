@@ -67,3 +67,10 @@ a:hover {
     color: #007ce2;
     text-decoration: none;
 }
+
+.no-gutter > [class*='col-'] {
+    padding-right:0;
+    padding-left:0;
+}
+
+
