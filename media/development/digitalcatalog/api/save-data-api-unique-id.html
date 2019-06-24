@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Save Form Data API: Sample Code</title>
+
+<!-- Full documentation available at http://docs.kioskproapp.com/article/430-capture-save-form-data -->
+
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:300,400,700|Inconsolata:400,700">
+<link rel="stylesheet" type="text/css" href="http://www.kioskproapp.com/api/api.css">
+
+<!-- REQUIREMENTS
+    1) Referencing 'kiosk_functions.js' is necessary if 'Access JavaScript API = By Import' as recommended. Reference 'kiosk_functions.js' before any JavaScript calls to the API.
+    2) To get 'kiosk_functions.js' for the version of the app you are using, open the app's settings menu > JavaScript API > Generate API Functions File. The file will be generated locally on the device in Kiosk Pro's documents folder and, if storing your project locally, can be referenced directly from that location.
+    3) Host 'kiosk_functions.js' on your own server if your content will be online. Make sure to change the filepath to reflect the new location.
+    4) Do NOT modify the 'kiosk_functions.js' file.
+-->
+<script type="text/javascript" src="http://www.kioskproapp.com/api/kiosk_functions.js"></script>
+
+<script>
+	/*
+	These functions pull the Unique iPad ID to use as your filename.
+	If a Unique iPad ID is not set, form will be saved as 'undefined.csv'.
+	*/
+	var filenameID;
+	function getFilenameID() {
+		window.kp_requestKioskId("kp_requestKioskId_callback");
+		
+	}
+	function kp_requestKioskId_callback(kioskId) {
+		filenameID = kioskId.split(" ").join("");
+	}
+	
+	/* This function saves the data entered by your visitors to a .csv file. */
+	function saveCSV(){
+		
+		/*These pull the text input values*/
+		var name = document.getElementsByName('name')[0].value;
+		var email = document.getElementsByName('email')[0].value;
+		
+		/*This checks the Unique iPad ID to use for the filename*/
+		getFilenameID();
+		
+		/* This adds the form data to the CSV file */
+		writeToFile(filenameID+'.csv', new Date()+','+name+','+email, "thankYou");
+	}
+	
+	/* This function directs to the thanks.html page when a form is submitted. */
+	function thankYou(){
+		window.location="save-data-api-unique-id-thanks.html";	
+	}
+	
+	/* This function clears the form. */
+	function startOver(){ 
+		window.location.reload();
+	}
+</script>
+</head>
+
+<body>
+
+<h1 class="center">Save Form Data API: Create Form with Unique iPad ID</h1>
+<p>The CSV file is created with the Unique iPad ID as its name. If no Unique iPad ID is set, the form will be saved as 'undefined.csv'.</p>
+
+<label>Name</label>
+<input type="text" name="name" autocomplete="off" autocorrect="off">
+<br>
+<label>Email</label>
+<input type="email" name="email" autocapitalize="off" autocomplete="off" autocorrect="off">
+<br>
+<a class="button" onClick="startOver();">Clear</a>
+<a class="button" onClick="saveCSV();">Submit</a>
+
+
+</body>
+</html>

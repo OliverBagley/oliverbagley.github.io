@@ -57,3 +57,13 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 80%;
     color: #c5c5c5;
 }
+
+a {
+    color: #383838;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #007ce2;
+    text-decoration: none;
+}

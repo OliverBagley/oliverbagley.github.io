@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Save Data API: Requirements</title>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:300,400,700|Inconsolata:400,700">
+<link rel="stylesheet" type="text/css" href="http://www.kioskproapp.com/api/api.css">
+</head>
+
+<body>
+<h1 class="center">Save Data API: Requirements</h1>
+<p>To run successfully, this sample demo requires the following:
+
+<h3>Kiosk Pro Basic, Kiosk Pro Plus or Kiosk Pro Enterprise, version 7.8 or later</h3>
+<p>While the JavaScript included in this code sample is compatible with earlier versions of Kiosk Pro, those versions require a different 'kiosk_functions.js' file to access this functionality.</p>
+<p>For live projects, we highly recommend hosting the 'kiosk_functions.js' file with your own files, whether they are placed on a server or stored locally on the iPad, and checking the app's <a href="http://www.kioskproapp.com/change-logs">change logs</a> before updating. The 'kiosk_functions.js' file referenced in the sample may be updated or moved without warning - if you are referencing this file directly, this would prevent your kiosks from working correctly.</p>
+<p>To run the demo on earlier versions of the app, generate the 'kiosk_functions.js' for that version from the settings menu under 'JavaScript API > Generate API Functions File'. Transfer the file from the device using iTunes so you can place it where you need it, then change the reference in the sample code to point at the file.</p>
+   
+<h3>Specific Kiosk Pro Settings</h3>
+<ul>
+    <li>Unique iPad ID - the Unique iPad ID must be set if using the Unique iPad ID demo, allowing the app to generate a unique filename for the .csv file being saved.</li>
+    <li>JavaScript API > Access JavaScript API = 'By Import'</li>
+</ul>
+
+<a href='http://www.kioskproapp.com/api/capture/save-data-api.html' class='button'>Basic Demo</a>
+<a href='http://www.kioskproapp.com/api/capture/save-data-api-line-break.html' class='button'>Line Break Demo</a>
+<br />
+<a href='http://www.kioskproapp.com/api/capture/save-data-api-unique-id.html' class='button'>Unique iPad ID as Filename Demo</a>
+   
+</body>
+</html>

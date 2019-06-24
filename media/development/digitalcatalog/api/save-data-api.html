@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Save Form Data API: Sample Code</title>
+
+<!-- Full documentation available at http://docs.kioskproapp.com/article/430-capture-save-form-data -->
+
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:300,400,700|Inconsolata:400,700">
+<link rel="stylesheet" type="text/css" href="http://www.kioskproapp.com/api/api.css">
+<style>
+	div {width: 49%; display: inline-block; vertical-align: top;}
+	p {width: 85%;}
+	input {width: 80%;}
+	div#_writeFileResult {width: 100%;}
+</style>
+<!-- REQUIREMENTS
+    1) Referencing 'kiosk_functions.js' is necessary if 'Access JavaScript API = By Import' as recommended. Reference 'kiosk_functions.js' before any JavaScript calls to the API.
+    2) To get 'kiosk_functions.js' for the version of the app you are using, open the app's settings menu > JavaScript API > Generate API Functions File. The file will be generated locally on the device in Kiosk Pro's documents folder and, if storing your project locally, can be referenced directly from that location.
+    3) Host 'kiosk_functions.js' on your own server if your content will be online. Make sure to change the filepath to reflect the new location.
+    4) Do NOT modify the 'kiosk_functions.js' file.
+-->
+<script type="text/javascript" src="http://www.kioskproapp.com/api/kiosk_functions.js"></script>
+<script type="text/javascript">
+	function _writeToFile() {
+		var fileName = document.getElementById("fileNameToWriteId").value;
+		var fileData = document.getElementById("fileDataToWriteId").value;
+		// If file does not exist - a new one will be created
+		// If file exists - data will be appended to the end of file into the new line.
+		window.writeToFile(fileName, fileData, "_writeToFile_Callback");
+	}
+	function _writeToFile_Callback(success) {
+		if (success) {
+			document.getElementById("_writeFileResult").innerHTML = "<p>Data was successfully added.</p>";
+		}
+		else {
+			document.getElementById("_writeFileResult").innerHTML = "<p>Error adding data to file.</p>";
+		}
+	}  
+</script>
+</head>
+<body>
+
+<h1 class="center">Save Data API: Sample Code</h1>
+
+<div>
+    <label>File Data:</label>
+    <input type="text" value="field1, field2, field3" id="fileDataToWriteId" autocorrect='off' autocapitalize='none'>
+        
+    <p>Multiple pieces of data can be delineated by commas and sent in a single line/request. Each 'save data' request will save to a new line in the .csv.</p>
+
+    <label>File Name/Path:</label>
+    <input type="text" value="test.csv" id="fileNameToWriteId" autocorrect='off' autocapitalize='none'>
+    <p>If the file exists, Kiosk Pro will add data to the existing file in a new line. Otherwise, a new file will be created. The filepath defined here (and in the function) is relative to the Kiosk Pro documents folder and should include the suffix '.csv'.</p>
+    <p>A local filepath using folders can be set here (for example, 'folder/test.csv'), but the folder must be manually created prior to running these functions. If you try to save to a folder that does not exist, the call will fail.</p>
+
+    <a class='button' onClick='_writeToFile()'>Write to File</a>
+</div>
+
+<div>
+	<h3>Status</h3>
+    <div id='_writeFileResult'></div>
+</div>
+
+</body>
+</html>
