@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Translation Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="importmap"> {
+        "imports": {
+            "@mui/material": "https://cdn.jsdelivr.net/npm/@mui/material@5.15.2/+esm",
+            "@emotion/react": "https://cdn.jsdelivr.net/npm/@emotion/react@11.11.1/+esm",
+            "@emotion/styled": "https://cdn.jsdelivr.net/npm/@emotion/styled@11.11.0/+esm",
+            "react": "https://cdn.jsdelivr.net/npm/react@18.2.0/+esm",
+            "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/+esm"
+        }
+    }
+    </script>
+    <!-- Fallback CDN scripts in case importmap fails -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <style>
+      :root{--transition-speed:.3s;--transition-ease:ease;--transition-all:all var(--transition-speed) var(--transition-ease);--bg-primary:#f5f5f5;--bg-secondary:white;--text-primary:#2c3e50;--text-secondary:#6c757d;--border-color:#ddd;--accent-primary:#3498db;--accent-secondary:#81bb28;--accent-warning:#ffc107;--accent-danger:#e74c3c;--tree-key:var(--accent-primary);--tree-value:var(--accent-secondary);--space-sm:.5rem;--space-md:1rem;--space-lg:2rem;--radius:4px;--radius-lg:8px;--font-sm:.8rem;--font-base:1rem;--font-lg:1.2rem;--shadow-sm:0 4px 6px color-mix(in srgb,black 10%,transparent);--shadow-tooltip:0 2px 8px rgba(0,0,0,.2);}*{margin:0;padding:0;box-sizing:border-box;}*,*::before,*::after{transition:all .2s ease;}body{font-family:"Roboto","Segoe UI",Tahoma,Geneva,Verdana,sans-serif;background-color:var(--bg-primary);color:var(--text-primary);}.btn{display:flex;align-items:center;justify-content:center;gap:var(--space-sm);padding:.75rem var(--space-md);border:1px solid transparent;border-radius:var(--radius);cursor:pointer;font-size:var(--font-base);font-weight:500;text-decoration:none;min-height:44px;height:44px;background:none;}.btn.primary{background-color:var(--accent-primary);color:white;border-color:var(--accent-primary);}.btn.primary:hover{background-color:color-mix(in srgb,var(--accent-primary) 80%,black);}.btn.secondary{background-color:var(--text-secondary);color:white;}.btn.secondary:hover{background-color:color-mix(in srgb,var(--text-secondary) 80%,black);}.btn.outline{background-color:transparent;color:var(--accent-primary);border-color:var(--accent-primary);}.btn.outline:hover{background-color:var(--accent-primary);color:white;}.btn.warning{background-color:var(--accent-warning);color:white;}.btn.warning:hover{background-color:color-mix(in srgb,var(--accent-warning) 80%,black);}.btn.icon-only{padding:.75rem;min-width:44px;width:44px;}.btn.hidden{display:none;}.btn.large{padding:var(--space-md) var(--space-lg);min-width:150px;border-radius:var(--radius-lg);}.btn[data-tooltip],.theme-dropdown-wrapper[data-tooltip]{position:relative;}.btn[data-tooltip]:hover::after,.theme-dropdown-wrapper[data-tooltip]:hover::after{content:attr(data-tooltip);position:absolute;bottom:-35px;left:50%;transform:translateX(-50%);background-color:rgba(0,0,0,.8);color:white;padding:var(--space-sm);border-radius:var(--radius);font-size:var(--font-sm);white-space:nowrap;z-index:1000;opacity:0;animation:tooltipFadeIn .2s ease forwards;}@keyframes tooltipFadeIn{to{opacity:1}}.btn.active{background-color:var(--accent-secondary)!important;}.input{padding:.75rem;border:1px solid var(--border-color);border-radius:var(--radius);background-color:var(--bg-secondary);color:var(--text-primary);font-size:var(--font-base);transition:border-color var(--transition-speed) var(--transition-ease);outline:none;}.input:focus{border-color:var(--accent-primary);}.input.mono{font-family:"Courier New",monospace;font-size:var(--font-base);}.input.large{min-height:100px;resize:vertical;}.input.readonly{background-color:color-mix(in srgb,var(--bg-primary) 50%,var(--bg-secondary));color:var(--text-secondary);}.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.5);align-items:center;justify-content:center;}.modal-content{background-color:var(--bg-secondary);padding:var(--space-lg);border-radius:var(--radius-lg);width:90%;max-width:750px;position:relative;max-height:90vh;overflow-y:auto;}.modal-content h3{margin-bottom:var(--space-lg);color:var(--text-primary);font-size:var(--font-lg);font-weight:500;}.modal-content label{font-weight:500;color:var(--text-primary);margin-bottom:var(--space-sm);display:block;}.modal-buttons{display:flex;gap:var(--space-md);justify-content:center;margin:var(--space-md);}.close{position:absolute;right:var(--space-md);top:var(--space-md);font-size:28px;font-weight:bold;cursor:pointer;color:var(--text-secondary);transition:color var(--transition-speed) var(--transition-ease);}.close:hover{color:var(--text-primary);}.container{min-height:100vh;display:flex;flex-direction:column;}.content{flex:1;display:none;position:relative;opacity:0;transition:opacity var(--transition-speed) var(--transition-ease);}.content.loaded{display:flex;opacity:1;}.left-panel,.right-panel{padding:var(--space-md);display:flex;flex-direction:column;transition:var(--transition-all);}.left-panel{width:50%;border-right:1px solid var(--border-color);background-color:var(--bg-secondary);}.left-panel.hidden{width:0;padding:0;border-right:none;overflow:hidden;}.right-panel{flex:1;}.left-panel h3,.right-panel h3{margin-bottom:var(--space-sm);color:var(--text-primary);}.toggle-json-btn{position:absolute;left:0;top:80%;transform:translateY(-50%);background-color:var(--accent-primary);color:white;border:none;padding:.75rem .5rem;border-radius:0 var(--radius) var(--radius) 0;cursor:pointer;font-size:var(--font-sm);writing-mode:vertical-rl;text-orientation:mixed;z-index:10;transition:var(--transition-all);backdrop-filter:blur(5px);opacity:.8;}.toggle-json-btn:hover{background-color:color-mix(in srgb,var(--accent-primary) 80%,black);opacity:.9;}.toggle-json-btn.active{left:50%;transform:translateY(-50%) translateX(-100%) rotate(180deg);}#jsonInput,#pasteInput{padding:.75rem;border:1px solid var(--border-color);border-radius:var(--radius);background-color:var(--bg-secondary);color:var(--text-primary);font-size:var(--font-base);transition:border-color var(--transition-speed) var(--transition-ease);outline:none;font-family:"Courier New",monospace;}#jsonInput:focus,#pasteInput:focus{border-color:var(--accent-primary);}#jsonInput{resize:none;padding:var(--space-md);overflow:hidden;min-height:300px;width:100%;}#pasteInput{width:100%;min-height:200px;margin:var(--space-sm) 0 var(--space-md) 0;resize:vertical;}#treeView{flex:1;overflow:visible;border:1px solid var(--border-color);border-radius:var(--radius);padding:var(--space-sm);background-color:var(--bg-secondary);color:var(--text-primary);min-height:300px;}.tree-item{margin:.2rem 0;padding:.2rem;border-radius:var(--radius);transition:var(--transition-all);}.tree-key{font-weight:500;color:var(--tree-key);cursor:pointer;display:inline-block;margin-right:var(--space-sm);}.tree-value{color:var(--tree-value);cursor:pointer;word-break:break-word;display:inline-block;white-space:pre-wrap;min-width:20px;min-height:1em;vertical-align:top;line-height:1.4;background:transparent;border:none;outline:none;padding:2px;margin:-2px;border-radius:var(--radius);font-family:inherit;font-size:inherit;font-weight:400;transition:background-color .2s ease;}.tree-value:hover{background-color:color-mix(in srgb,var(--border-color) 30%,var(--bg-secondary));}.tree-value.editing{background:var(--bg-secondary);border:1px solid var(--accent-primary);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent-primary) 20%,transparent);outline:none;}.tree-object,.tree-array{margin-left:var(--space-md);padding-left:var(--space-sm);transition:var(--transition-all);overflow:hidden;}.tree-object{border-left:2px solid var(--border-color);}.tree-array{border-left:2px solid var(--accent-warning);}.tree-toggle{cursor:pointer;user-select:none;font-weight:bold;color:var(--text-secondary);margin-right:.3rem;transition:color var(--transition-speed) var(--transition-ease);}.tree-toggle:hover{color:var(--text-primary);}.collapsed>.tree-object,.collapsed>.tree-array{max-height:0;opacity:0;transform:translateY(-10px);}.welcome-screen{flex:1;display:flex;align-items:center;justify-content:center;background-color:var(--bg-primary);padding:var(--space-lg);}.welcome-content{max-width:1200px;width:100%;text-align:center;background-color:var(--bg-secondary);padding:var(--space-lg);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);}.welcome-header h1{color:var(--text-primary);margin-bottom:var(--space-md);font-size:var(--font-lg);}.welcome-header p{color:var(--text-secondary);margin-bottom:var(--space-lg);font-size:var(--font-base);line-height:1.6;}.upload-zone{background-color:color-mix(in srgb,var(--bg-primary) 50%,var(--bg-secondary));border:2px dashed var(--accent-primary);border-radius:var(--radius-lg);padding:var(--space-lg);margin:var(--space-lg) 0;transition:var(--transition-all);cursor:pointer;position:relative;overflow:hidden;min-height:180px;display:flex;align-items:center;justify-content:center;}.upload-zone:hover{background-color:color-mix(in srgb,var(--bg-primary) 30%,var(--bg-secondary));border-color:color-mix(in srgb,var(--accent-primary) 80%,black);}.upload-zone.dragover{background-color:color-mix(in srgb,var(--accent-primary) 20%,var(--bg-secondary));border-color:var(--accent-primary);transform:scale(1.02);}.upload-zone.paste-mode{background-color:color-mix(in srgb,var(--accent-warning) 20%,var(--bg-secondary));border-color:var(--accent-warning);cursor:text;padding:var(--space-lg);}.upload-content{display:flex;flex-direction:column;align-items:center;gap:var(--space-md);transition:var(--transition-all);width:100%;}.upload-icon{font-size:3rem;color:var(--accent-primary);transition:var(--transition-all);}.upload-zone.paste-mode .upload-icon{color:var(--accent-warning);}.upload-text{color:var(--text-secondary);font-size:var(--font-base);margin:0;}.upload-zone.paste-mode .upload-text{color:color-mix(in srgb,var(--accent-warning) 80%,black);}.paste-input{display:none;width:100%;height:100%;min-height:120px;border:none;background:transparent;font-family:"Courier New",monospace;font-size:var(--font-base);resize:none;outline:none;color:var(--text-primary);padding:0;margin:0;}.upload-zone.paste-mode .upload-content{display:none;}.upload-zone.paste-mode .paste-input{display:block;}.welcome-actions-container{display:flex;gap:var(--space-md);justify-content:center;flex-wrap:wrap;margin-top:var(--space-lg);}.btn.welcome.primary{background-color:var(--accent-primary);color:white;border-color:var(--accent-primary);}.btn.welcome.primary:hover{background-color:color-mix(in srgb,var(--accent-primary) 80%,black);}.btn.welcome.secondary{background-color:transparent;color:var(--accent-primary);border-color:var(--accent-primary);}.btn.welcome.secondary:hover{background-color:var(--accent-primary);color:white;}.btn.welcome.warning{background-color:var(--accent-warning);color:white;border-color:var(--accent-warning);}.btn.welcome.warning:hover{background-color:color-mix(in srgb,var(--accent-warning) 80%,black);}.header-fallback{background-color:var(--bg-secondary)!important;color:var(--text-primary)!important;padding:var(--space-md);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-color);}.header-fallback h1{margin:0;font-size:var(--font-lg);color:var(--text-primary)!important;}.header-controls{display:none;opacity:0;gap:var(--space-sm);align-items:center;transition:opacity .5s ease;min-height:44px;}.header-controls.visible{display:flex;opacity:1;}.theme-dropdown-wrapper{position:relative;display:flex;align-items:center;gap:var(--space-sm);padding:.75rem var(--space-md);background-color:var(--text-secondary);color:white;border-radius:var(--radius);font-size:var(--font-base);font-weight:500;min-height:44px;height:44px;transition:var(--transition-all);cursor:pointer;}.theme-dropdown-wrapper:hover{background-color:color-mix(in srgb,var(--text-secondary) 80%,black);}.theme-dropdown-wrapper .material-icons{font-size:1.2rem;pointer-events:none;}.theme-select{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer;border:none;background:transparent;}.theme-label{font-size:var(--font-base);font-weight:500;pointer-events:none;user-select:none;}.theme-select option{background-color:var(--bg-secondary);color:var(--text-primary);padding:.5rem;}.hidden-file-input{display:none;}.footer{background-color:var(--bg-secondary);border-top:1px solid var(--border-color);padding:.5rem var(--space-md) .75rem;text-align:center;margin-top:auto;}.footer p{font-size:.75rem;color:var(--text-secondary);margin:0;line-height:1.2;}.footer a{color:var(--accent-primary);text-decoration:none;transition:var(--transition-all);}.footer a:hover{color:color-mix(in srgb,var(--accent-primary) 80%,black);text-decoration:underline;}body.dark{--bg-primary:#2c3e50;--bg-secondary:#34495e;--text-primary:#ecf0f1;--text-secondary:#bdc3c7;--border-color:#34495e;--tree-key:#e74c3c;--tree-value:#2ecc71;--accent-primary:#3498db;--accent-secondary:#27ae60;--accent-warning:#f39c12;--accent-danger:#e74c3c;}body.dark,body.tokyo{.welcome-screen{background-color:var(--bg-primary)}.header-fallback{background-color:var(--bg-secondary)!important;border-bottom-color:var(--border-color)!important}.header-fallback h1{color:var(--text-primary)!important}.modal-content{background-color:var(--bg-secondary);border:1px solid var(--border-color)}.modal-content h3,.modal-content label{color:var(--text-primary)}.modal-content p{color:var(--text-secondary)}#pasteInput{background-color:color-mix(in srgb,var(--bg-primary) 50%,var(--bg-secondary));color:var(--text-primary);border-color:var(--border-color)}.welcome-content{background-color:var(--bg-secondary);color:var(--text-primary)}.welcome-header h1{color:var(--text-primary)}.welcome-header p{color:var(--text-secondary)}.upload-zone{background-color:color-mix(in srgb,var(--bg-primary) 50%,var(--bg-secondary))}.upload-zone.paste-mode{background-color:var(--bg-primary)}.upload-text{color:var(--text-secondary)}.paste-input{color:var(--text-primary)}.close{color:var(--text-secondary)}.close:hover{color:var(--text-primary)}.modal-buttons{border-top-color:var(--border-color)}.tree-key{color:var(--tree-key)}.tree-value{color:var(--tree-value)}.tree-value:hover{background-color:color-mix(in srgb,var(--border-color) 30%,var(--bg-secondary))}.tree-toggle{color:var(--text-secondary)}.tree-object{border-left-color:var(--border-color)}.tree-array{border-left-color:var(--accent-warning)}#treeView{background-color:var(--bg-secondary);border-color:var(--border-color);color:var(--text-primary)}}body.tokyo{--bg-primary:#16161e;--bg-secondary:#1a1b26;--text-primary:#c0caf5;--text-secondary:#9aa5ce;--border-color:#2d3748;--tree-key:#bb9af7;--tree-value:#9ece6a;--accent-primary:#7aa2f7;--accent-secondary:#9ece6a;--accent-warning:#e0af68;--accent-danger:#f7768e;}
+    </style>
+
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div id="header">
+        <div class="header-fallback">
+          <h1>JSON Translation Tool</h1>
+          <div class="header-controls">
+            <button id="homeBtnFallback" class="btn primary" data-tooltip="Reload to homepage?">
+              <span class="material-icons">home</span>
+            </button>
+            <div class="theme-dropdown-wrapper" data-tooltip="Change editor theme">
+              <span class="material-icons">palette</span>
+              <select id="themeDropdown" class="theme-select">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+                <option value="tokyo">Tokyo Night</option>
+              </select>
+              <span class="theme-label">Change Theme</span>
+            </div>
+            <button id="copyBtnFallback" class="btn primary hidden" data-tooltip="Copy to Clipboard">
+              <span class="material-icons">content_copy</span>Copy </button>
+            <button id="saveBtnFallback" class="btn primary" data-tooltip="Save as File">
+              <span class="material-icons">save</span>Save </button>
+          </div>
+        </div>
+      </div>
+      <div class="content" id="content">
+        <div class="left-panel hidden" id="leftPanel">
+          <h3>JSON Code</h3>
+          <textarea id="jsonInput" placeholder="Paste your JSON here..."></textarea>
+        </div>
+        <button class="toggle-json-btn" id="toggleJsonBtn">
+          <span>Show JSON</span>
+        </button>
+        <div class="right-panel" id="rightPanel">
+          <h3>Tree Editor</h3>
+          <div id="treeView"></div>
+        </div>
+      </div>
+      <!-- Welcome Screen -->
+      <div id="welcomeScreen" class="welcome-screen">
+        <div class="welcome-content">
+          <div class="welcome-header">
+            <h1>JSON Translation Tool</h1>
+            <p>Easily translate JSON files with a visual tree editor. Perfect for website content, configuration files, and more.</p>
+          </div>
+          <div class="upload-zone" id="uploadZone">
+            <div class="upload-content" id="uploadContent">
+              <div class="upload-icon" id="uploadIcon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                </svg>
+              </div>
+              <div class="upload-text" id="uploadText">Drag & drop your JSON file here</div>
+            </div>
+            <textarea class="paste-input" id="pasteZoneInput" placeholder="Paste your JSON here..."></textarea>
+          </div>
+          <div class="welcome-actions" id="welcomeActions">
+            <div class="welcome-actions-container">
+              <button id="uploadFileBtnFallback" class="btn primary welcome" data-tooltip="Upload a JSON file from your computer">
+                <span class="material-icons">upload_file</span>Upload File </button>
+              <button id="pasteJsonBtnFallback" class="btn secondary welcome" data-tooltip="Paste JSON content directly into the browser">
+                <span class="material-icons">content_paste</span>Paste JSON </button>
+              <button id="loadExampleBtnFallback" class="btn warning welcome" data-tooltip="Load example data">
+                <span class="material-icons">psychology</span>Load Example Data </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    
+    <!-- Footer -->
+    <footer class="footer">
+      <p>JSON Translation Tool &copy; <span id="currentYear">2025</span> - <a href="https://www.oliverbagley.com" target="_blank" rel="noopener noreferrer">oliverbagley.com</a> - <a href="https://github.com/OliverBagley" target="_blank" rel="noopener noreferrer">github.com/oliverbagley</a></p>
+    </footer>
+    </div>
+    <!-- Paste JSON Modal -->
+    <div id="pasteModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closePaste">&times;</span>
+        <h3>Paste Your JSON</h3>
+        <p>Copy and paste your JSON content below:</p>
+        <textarea id="pasteInput" placeholder='Paste your JSON here...'></textarea>
+        <div class="modal-buttons">
+          <button id="loadPastedJson" class="btn primary" data-tooltip="Load pasted content in the editor">Load</button>
+          <button id="cancelPaste" class="btn secondary" data-tooltip="Cancel and close paste window">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <!-- Home Confirmation Modal -->
+    <div id="homeModal" class="modal">
+      <div class="modal-content">
+        <h3>Go Home?</h3>
+        <p>Are you sure you want to go home?</p>
+        <p>Any unsaved changes will be lost.</p>
+        <div class="modal-buttons">
+          <button id="confirmHome" class="btn warning">Yes, Go Home</button>
+          <button id="cancelHome" class="btn secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <!-- File Input (hidden) -->
+    <input type="file" id="fileInput" accept=".json" class="hidden-file-input">
+
+    <script>
+      class JSONTranslationTool {
+   constructor() {
+      this.jsonData = {};
+      this.contentLoaded = false;
+      this.initializeElements();
+      this.bindEvents();
+      this.setupDragAndDrop();
+      this.loadSavedTheme();
+   }
+
+   initializeElements() {
+      // Main elements
+      this.jsonInput = document.getElementById("jsonInput");
+      this.treeView = document.getElementById("treeView");
+      this.toggleJsonBtn = document.getElementById("toggleJsonBtn");
+      this.leftPanel = document.getElementById("leftPanel");
+      this.fileInput = document.getElementById("fileInput");
+
+      // Welcome screen elements
+      this.welcomeScreen = document.getElementById("welcomeScreen");
+      this.uploadZone = document.getElementById("uploadZone");
+      this.pasteZoneInput = document.getElementById("pasteZoneInput");
+
+      // Modal elements
+      this.pasteModal = document.getElementById("pasteModal");
+   }
+
+   bindEvents() {
+      // Main functionality events
+      if (this.jsonInput)
+         this.jsonInput.addEventListener("input", () => this.onJSONChange());
+      if (this.toggleJsonBtn)
+         this.toggleJsonBtn.addEventListener("click", () =>
+            this.toggleJsonPanel()
+         );
+
+      // Header buttons
+      const themeDropdown = document.getElementById("themeDropdown");
+      const copyBtn = document.getElementById("copyBtnFallback");
+      const saveBtn = document.getElementById("saveBtnFallback");
+      const homeBtn = document.getElementById("homeBtnFallback");
+
+      if (themeDropdown)
+         themeDropdown.addEventListener("change", (e) =>
+            this.changeTheme(e.target.value)
+         );
+      if (copyBtn)
+         copyBtn.addEventListener("click", () => this.copyToClipboard());
+      if (saveBtn) saveBtn.addEventListener("click", () => this.saveFile());
+      if (homeBtn) homeBtn.addEventListener("click", () => this.goHome());
+
+      // Welcome action buttons
+      const uploadBtn = document.getElementById("uploadFileBtnFallback");
+      const pasteBtn = document.getElementById("pasteJsonBtnFallback");
+      const exampleBtn = document.getElementById("loadExampleBtnFallback");
+
+      if (uploadBtn) uploadBtn.addEventListener("click", () => this.uploadFile());
+      if (pasteBtn)
+         pasteBtn.addEventListener("click", () => this.showPasteModal());
+      if (exampleBtn)
+         exampleBtn.addEventListener("click", () => this.loadExampleData());
+
+      // Welcome screen events
+      if (this.uploadZone)
+         this.uploadZone.addEventListener("click", () =>
+            this.handleUploadZoneClick()
+         );
+      if (this.pasteZoneInput) {
+         this.pasteZoneInput.addEventListener("input", () =>
+            this.handlePasteZoneInput()
+         );
+         this.pasteZoneInput.addEventListener("blur", () =>
+            this.handlePasteZoneBlur()
+         );
+      }
+
+      // File input
+      if (this.fileInput)
+         this.fileInput.addEventListener("change", () => this.handleFileUpload());
+
+      // Modal events
+      this.bindModalEvents();
+   }
+
+   bindModalEvents() {
+      // Paste modal
+      const closePaste = document.getElementById("closePaste");
+      const loadPastedJson = document.getElementById("loadPastedJson");
+      const cancelPaste = document.getElementById("cancelPaste");
+
+      if (closePaste)
+         closePaste.addEventListener("click", () => this.closePasteModal());
+      if (loadPastedJson)
+         loadPastedJson.addEventListener("click", () => this.loadPastedData());
+      if (cancelPaste)
+         cancelPaste.addEventListener("click", () => this.closePasteModal());
+
+      // Home modal
+      const confirmHome = document.getElementById("confirmHome");
+      const cancelHome = document.getElementById("cancelHome");
+
+      if (confirmHome)
+         confirmHome.addEventListener("click", () => this.confirmGoHome());
+      if (cancelHome)
+         cancelHome.addEventListener("click", () => this.closeHomeModal());
+   }
+
+   setupDragAndDrop() {
+      document.addEventListener("dragover", (e) => {
+         e.preventDefault();
+         this.uploadZone.classList.add("dragover");
+      });
+
+      document.addEventListener("dragleave", (e) => {
+         if (!e.relatedTarget || !this.uploadZone.contains(e.relatedTarget)) {
+            this.uploadZone.classList.remove("dragover");
+         }
+      });
+
+      document.addEventListener("drop", (e) => {
+         e.preventDefault();
+         this.uploadZone.classList.remove("dragover");
+         const files = e.dataTransfer.files;
+         if (files.length > 0 && files[0].type === "application/json") {
+            this.handleDroppedFile(files[0]);
+         }
+      });
+   }
+
+   handleDroppedFile(file) {
+      this.processJSONFile(file);
+   }
+
+   processJSONFile(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+         try {
+            this.jsonData = JSON.parse(e.target.result);
+            this.updateJSONInput();
+            this.updateTreeView();
+            this.showContent();
+            if (this.welcomeScreen.style.display !== "none") {
+               this.hideWelcomeScreen();
+            }
+         } catch (error) {
+            alert("Error reading JSON file: " + error.message);
+         }
+      };
+      reader.readAsText(file);
+   }
+
+   showContent() {
+      this.contentLoaded = true;
+      const content = document.getElementById("content");
+
+      if (content) {
+         content.style.display = "flex";
+         content.classList.add("loaded");
+      }
+
+      this.hideWelcomeScreen();
+
+      // Show header controls with smooth fade-in
+      const headerControls = document.querySelector(".header-controls");
+      if (headerControls) {
+         headerControls.style.display = "flex";
+         headerControls.style.opacity = "1";
+         // Force reflow to ensure display:flex is applied before opacity transition
+         headerControls.offsetHeight;
+         headerControls.classList.add("visible");
+      }
+   }
+
+   hideWelcomeScreen() {
+      this.welcomeScreen.style.display = "none";
+   }
+
+   loadExampleData() {
+      const exampleData = {
+         meta: {
+            title: "This is a Page Title for Translations",
+            description: "Some more content goes here for the meta description.",
+            keywords: "SEO, keywords, example, for, translations, impact, report",
+         },
+         hero: {
+            subtitle: "Translation Tool Example",
+            title: "Translation Tool Example Subtitle",
+            description: "This is an example of a hero section for the translation tool.",
+         },
+         commitment: {
+            subtitle: "Translations made easier and faster",
+            title: "Tree editor and customisable editor",
+            paragraph1: "More content goes here to explain about our new translations.",
+         },
+         actions: {
+            subtitle: "Key Features of the Translation Tool",
+            title: "About the Translation Tool",
+            cards: [{
+                  title: "Feature 1: File Upload",
+                  description: "Upload JSON files directly into the tool.",
+               },
+               {
+                  title: "Feature 2: JSON Input",
+                  description: "View and edit the raw JSON data in a text area.",
+               },
+               {
+                  title: "Feature 3: Paste JSON",
+                  description: "Paste JSON content directly into the tool for quick editing.",
+               },
+               {
+                  title: "Feature 4: Tree View Editor",
+                  description: "Easily navigate and edit your JSON data in a tree structure.",
+               },
+               {
+                  title: "Feature 5: Save and Copy",
+                  description: "Save your changes to a file or copy the JSON content to the clipboard.",
+               },
+            ],
+         },
+      };
+
+      this.jsonData = exampleData;
+      this.updateJSONInput();
+      this.updateTreeView();
+      this.showContent();
+   }
+
+   toggleJsonPanel() {
+      const isHidden = this.leftPanel.classList.contains("hidden");
+      if (isHidden) {
+         this.leftPanel.classList.remove("hidden");
+         this.toggleJsonBtn.classList.add("active");
+         this.toggleJsonBtn.querySelector("span").textContent = "Hide JSON";
+      } else {
+         this.leftPanel.classList.add("hidden");
+         this.toggleJsonBtn.classList.remove("active");
+         this.toggleJsonBtn.querySelector("span").textContent = "Show JSON";
+      }
+   }
+
+   uploadFile() {
+      this.fileInput.click();
+   }
+
+   handleUploadZoneClick() {
+      if (!this.uploadZone.classList.contains("paste-mode")) {
+         this.uploadFile();
+      }
+   }
+
+   handlePasteZoneInput() {
+      const content = this.pasteZoneInput.value.trim();
+      if (content) {
+         this.tryParseJSON(content, false);
+      }
+   }
+
+   handlePasteZoneBlur() {
+      const content = this.pasteZoneInput.value.trim();
+      if (content) {
+         this.tryParseJSON(content, true);
+      }
+   }
+
+   tryParseJSON(content, showError = false) {
+      try {
+         this.jsonData = JSON.parse(content);
+         this.updateJSONInput();
+         this.updateTreeView();
+         this.showContent();
+      } catch (error) {
+         if (showError) {
+            alert("Invalid JSON format: " + error.message);
+            this.pasteZoneInput.focus();
+         }
+         // If showError is false, silently ignore (for live typing)
+      }
+   }
+
+   handleFileUpload() {
+      const file = this.fileInput.files[0];
+      if (file && file.type === "application/json") {
+         this.processJSONFile(file);
+      } else {
+         alert("Please select a valid JSON file.");
+      }
+   }
+
+   onJSONChange() {
+      try {
+         const text = this.jsonInput.value.trim();
+         if (text) {
+            this.jsonData = JSON.parse(text);
+            this.updateTreeView();
+         }
+      } catch (error) {
+         // Invalid JSON, don't update tree view
+         console.log("Invalid JSON");
+      }
+   }
+
+   updateJSONInput() {
+      this.jsonInput.value = JSON.stringify(this.jsonData, null, 2);
+      this.autoResizeJsonInput();
+   }
+
+   autoResizeJsonInput() {
+      if (!this.jsonInput) return;
+
+      // Reset height to auto to get the correct scrollHeight
+      this.jsonInput.style.height = 'auto';
+
+      // Calculate the height needed plus 100px buffer
+      const contentHeight = this.jsonInput.scrollHeight;
+      const newHeight = contentHeight + 100;
+
+      // Set the new height
+      this.jsonInput.style.height = `${newHeight}px`;
+   }
+
+   updateTreeView() {
+      if (!this.treeView) return;
+      this.treeView.innerHTML = "";
+      if (Object.keys(this.jsonData).length > 0) {
+         this.renderObject(this.jsonData, this.treeView, []);
+         this.autoResizeTreeView();
+      }
+   }
+
+   autoResizeTreeView() {
+      if (!this.treeView) return;
+
+      // Reset height to auto to measure content
+      this.treeView.style.height = 'auto';
+
+      // Calculate the height needed plus 100px buffer
+      const contentHeight = this.treeView.scrollHeight;
+      const newHeight = Math.max(contentHeight + 100, 300); // Minimum 300px
+
+      // Set the new height
+      this.treeView.style.height = `${newHeight}px`;
+   }
+
+   renderObject(obj, container, path) {
+      for (const [key, value] of Object.entries(obj)) {
+         const currentPath = [...path, key];
+         const item = document.createElement("div");
+         item.className = "tree-item";
+
+         if (typeof value === "object" && value !== null) {
+            if (Array.isArray(value)) {
+               this.renderArray(key, value, item, currentPath);
+            } else {
+               this.renderObjectProperty(key, value, item, currentPath);
+            }
+         } else {
+            this.renderPrimitive(key, value, item, currentPath);
+         }
+
+         container.appendChild(item);
+      }
+   }
+
+   renderPrimitive(key, value, container, path) {
+      const keySpan = document.createElement("span");
+      keySpan.className = "tree-key";
+      keySpan.textContent = `${key}: `;
+
+      const valueDiv = document.createElement("div");
+      valueDiv.className = "tree-value";
+      valueDiv.textContent =
+         typeof value === "string" ? value : JSON.stringify(value);
+      valueDiv.dataset.path = JSON.stringify(path);
+      valueDiv.dataset.originalValue = valueDiv.textContent;
+
+      valueDiv.addEventListener("click", (e) => {
+         e.stopPropagation();
+         this.startQuickEdit(valueDiv, path);
+      });
+
+      container.appendChild(keySpan);
+      container.appendChild(valueDiv);
+   }
+
+   renderObjectProperty(key, obj, container, path) {
+      const toggle = document.createElement("span");
+      toggle.className = "tree-toggle";
+      toggle.textContent = "▼";
+
+      const keySpan = document.createElement("span");
+      keySpan.className = "tree-key";
+      keySpan.textContent = `${key}:`;
+
+      const objContainer = document.createElement("div");
+      objContainer.className = "tree-object";
+
+      toggle.addEventListener("click", () => {
+         container.classList.toggle("collapsed");
+         toggle.textContent = container.classList.contains("collapsed") ?
+            "▶" :
+            "▼";
+      });
+
+      container.appendChild(toggle);
+      container.appendChild(keySpan);
+      container.appendChild(objContainer);
+
+      this.renderObject(obj, objContainer, path);
+   }
+
+   renderArray(key, arr, container, path) {
+      const toggle = document.createElement("span");
+      toggle.className = "tree-toggle";
+      toggle.textContent = "▼";
+
+      const keySpan = document.createElement("span");
+      keySpan.className = "tree-key";
+      keySpan.textContent = `${key}: [${arr.length}]`;
+
+      const arrContainer = document.createElement("div");
+      arrContainer.className = "tree-array";
+
+      toggle.addEventListener("click", () => {
+         container.classList.toggle("collapsed");
+         toggle.textContent = container.classList.contains("collapsed") ?
+            "▶" :
+            "▼";
+      });
+
+      container.appendChild(toggle);
+      container.appendChild(keySpan);
+      container.appendChild(arrContainer);
+
+      arr.forEach((item, index) => {
+         const currentPath = [...path, index];
+         const itemElement = document.createElement("div");
+         itemElement.className = "tree-item";
+
+         if (typeof item === "object" && item !== null) {
+            if (Array.isArray(item)) {
+               this.renderArray(`[${index}]`, item, itemElement, currentPath);
+            } else {
+               this.renderObjectProperty(
+                  `[${index}]`,
+                  item,
+                  itemElement,
+                  currentPath
+               );
+            }
+         } else {
+            this.renderPrimitive(`[${index}]`, item, itemElement, currentPath);
+         }
+
+         arrContainer.appendChild(itemElement);
+      });
+   }
+
+   startQuickEdit(valueElement, path) {
+      // Check if already editing
+      if (valueElement.contentEditable === "true") return;
+
+      // Make the div contentEditable - no layout shift, looks the same
+      valueElement.contentEditable = true;
+      valueElement.classList.add("editing");
+
+      // Store original value
+      const originalValue = valueElement.textContent;
+
+      // Focus and select all text
+      valueElement.focus();
+      const range = document.createRange();
+      range.selectNodeContents(valueElement);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      // Save function
+      const saveEdit = () => {
+         const newValue = this.parseValue(valueElement.textContent);
+         this.setValueAtPath(this.jsonData, path, newValue);
+         this.updateJSONInput();
+         this.finishQuickEdit(valueElement);
+      };
+
+      // Cancel function
+      const cancelEdit = () => {
+         valueElement.textContent = originalValue;
+         this.finishQuickEdit(valueElement);
+      };
+
+      // Event handlers
+      const handleKeydown = (e) => {
+         if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            saveEdit();
+         } else if (e.key === "Escape") {
+            e.preventDefault();
+            cancelEdit();
+         }
+      };
+
+      const handleBlur = () => {
+         saveEdit();
+      };
+
+      // Add event listeners
+      valueElement.addEventListener("keydown", handleKeydown);
+      valueElement.addEventListener("blur", handleBlur);
+
+      // Store cleanup function
+      valueElement._quickEditCleanup = () => {
+         valueElement.removeEventListener("keydown", handleKeydown);
+         valueElement.removeEventListener("blur", handleBlur);
+      };
+   }
+
+   finishQuickEdit(valueElement) {
+      if (valueElement._quickEditCleanup) {
+         valueElement._quickEditCleanup();
+         delete valueElement._quickEditCleanup;
+      }
+      valueElement.contentEditable = false;
+      valueElement.classList.remove("editing");
+      valueElement.blur();
+   }
+
+   setValueAtPath(obj, path, value) {
+      let current = obj;
+      for (let i = 0; i < path.length - 1; i++) {
+         current = current[path[i]];
+      }
+      current[path[path.length - 1]] = value;
+   }
+
+   copyToClipboard() {
+      navigator.clipboard
+         .writeText(JSON.stringify(this.jsonData, null, 2))
+         .then(() => {
+            // Find the copy button and show feedback
+            const copyBtn = document.getElementById("copyBtnFallback");
+            if (copyBtn) {
+               const originalStyle = copyBtn.style.backgroundColor;
+               copyBtn.style.backgroundColor = "#27ae60";
+               const iconSpan = copyBtn.querySelector(".material-icons");
+               const originalIcon = iconSpan.textContent;
+               iconSpan.textContent = "check";
+
+               setTimeout(() => {
+                  copyBtn.style.backgroundColor = originalStyle;
+                  iconSpan.textContent = originalIcon;
+               }, 1000);
+            }
+         })
+         .catch(() => {
+            // Fallback for older browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = JSON.stringify(this.jsonData, null, 2);
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+         });
+   }
+
+   saveFile() {
+      const filename = prompt("Enter filename (will add .json if not present):");
+      if (filename) {
+         const finalFilename = filename.endsWith(".json") ?
+            filename :
+            filename + ".json";
+         const jsonString = JSON.stringify(this.jsonData, null, 2);
+         const blob = new Blob([jsonString], {
+            type: "application/json"
+         });
+         const url = URL.createObjectURL(blob);
+
+         const a = document.createElement("a");
+         a.href = url;
+         a.download = finalFilename;
+         document.body.appendChild(a);
+         a.click();
+         document.body.removeChild(a);
+         URL.revokeObjectURL(url);
+      }
+   }
+
+   getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(";").shift();
+      return null;
+   }
+
+   getCurrentTheme() {
+      return this.getCookie("theme") || "light";
+   }
+
+   loadSavedTheme() {
+      const savedTheme = this.getCookie("theme");
+      if (savedTheme) {
+         this.applyTheme(savedTheme);
+      }
+
+      // Set the dropdown to the current theme
+      const themeDropdown = document.getElementById("themeDropdown");
+      if (themeDropdown) {
+         const currentTheme = this.getCurrentTheme();
+         themeDropdown.value = currentTheme;
+      }
+   }
+
+   changeTheme(theme) {
+      document.cookie = `theme=${theme}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+      this.applyTheme(theme);
+   }
+
+   showPasteModal() {
+      const pasteModal = document.getElementById("pasteModal");
+      if (pasteModal) {
+         pasteModal.style.display = "flex";
+         const pasteInput = document.getElementById("pasteInput");
+         if (pasteInput) pasteInput.focus();
+      }
+   }
+
+   closePasteModal() {
+      const pasteModal = document.getElementById("pasteModal");
+      const pasteInput = document.getElementById("pasteInput");
+      if (pasteModal) pasteModal.style.display = "none";
+      if (pasteInput) pasteInput.value = "";
+   }
+
+   applyTheme(theme) {
+      // Remove all theme classes from body
+      document.body.classList.remove("dark", "tokyo");
+
+      // Add the selected theme class if not light
+      if (theme !== "light") {
+         document.body.classList.add(theme);
+      }
+   }
+
+   loadPastedData() {
+      const pasteInput = document.getElementById("pasteInput");
+      const text = pasteInput ? pasteInput.value.trim() : "";
+
+      if (!text) {
+         alert("Please paste some JSON content.");
+         return;
+      }
+
+      try {
+         this.jsonData = JSON.parse(text);
+         this.updateJSONInput();
+         this.updateTreeView();
+         this.showContent();
+         this.closePasteModal();
+      } catch (error) {
+         alert("Invalid JSON format: " + error.message);
+      }
+   }
+
+   parseValue(stringValue) {
+      const trimmed = stringValue.trim();
+
+      // Handle empty string
+      if (trimmed === "") return "";
+
+      // Handle booleans
+      if (trimmed === "true") return true;
+      if (trimmed === "false") return false;
+
+      // Handle numbers (but not strings that look like numbers with multiple lines)
+      if (!trimmed.includes("\n") && !isNaN(trimmed) && trimmed !== "") {
+         const num = Number(trimmed);
+         if (isFinite(num)) return num;
+      }
+
+      // Try to parse as JSON for complex objects/arrays
+      try {
+         return JSON.parse(stringValue);
+      } catch {
+         // Return as string if all else fails
+         return stringValue;
+      }
+   }
+
+   goHome() {
+      const homeModal = document.getElementById("homeModal");
+      if (homeModal) {
+         homeModal.style.display = "flex";
+      }
+   }
+
+   confirmGoHome() {
+      // Reset the tool state
+      this.jsonData = {};
+      this.contentLoaded = false;
+
+      // Clear content areas
+      if (this.jsonInput) {
+         this.jsonInput.value = "";
+         this.jsonInput.style.height = "300px"; // Reset height
+      }
+      if (this.treeView) {
+         this.treeView.innerHTML = "";
+         this.treeView.style.height = "300px"; // Reset height
+      }
+      if (this.pasteZoneInput) this.pasteZoneInput.value = "";
+
+      // Hide content and show welcome screen
+      const content = document.getElementById("content");
+      const headerControls = document.querySelector(".header-controls");
+
+      if (content) {
+         content.classList.remove("loaded");
+         content.style.display = "none";
+      }
+
+      if (headerControls) {
+         headerControls.classList.remove("visible");
+         headerControls.style.display = "none";
+         headerControls.style.opacity = "0";
+      }
+
+      if (this.welcomeScreen) {
+         this.welcomeScreen.style.display = "flex";
+      }
+
+      // Reset panels
+      if (this.leftPanel) {
+         this.leftPanel.classList.add("hidden");
+      }
+
+      if (this.toggleJsonBtn) {
+         this.toggleJsonBtn.classList.remove("active");
+         const span = this.toggleJsonBtn.querySelector("span");
+         if (span) span.textContent = "Show JSON";
+      }
+
+      // Reset upload zone
+      if (this.uploadZone) {
+         this.uploadZone.classList.remove("paste-mode", "dragover");
+      }
+
+      // Close home modal
+      this.closeHomeModal();
+   }
+
+   closeHomeModal() {
+      const homeModal = document.getElementById("homeModal");
+      if (homeModal) {
+         homeModal.style.display = "none";
+      }
+   }
+}
+
+// Initialize the tool when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+   new JSONTranslationTool();
+});
+    </script>
+
+  </body>
+</html>
