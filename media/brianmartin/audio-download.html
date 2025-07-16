@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Download - Brian Martin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f4f4f4 0%, #dbdbdb 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .audio-icon {
+            width: 120px;
+            height: 120px;
+            background-image: url(brianmartin.jpg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            overflow: hidden;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .filename {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 6px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .runtime {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        .audio-player {
+            width: 100%;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .download-section {
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+        }
+
+        .download-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .download-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .download-btn {
+            background: linear-gradient(45deg, #4a90e2, #225ea8);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(34, 94, 168, 0.3);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .format-label {
+            font-weight: 600;
+            margin-right: 5px;
+        }
+
+        .file-size {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .download-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="audio-icon"></div>
+        
+        <h1 class="title">Brian Martin Signing Off <br /> <small><i>(Illusion - Everywhere you go)</i> Remastered</small></h1>
+        <div class="filename">Brian Martin Signing Off - (Illusion - Everywhere you go) _ Remaster..wav</div>
+        <div class="runtime">Duration: 3:45</div>
+        
+        <audio class="audio-player" controls preload="metadata">
+            <source src="Brian Martin Signing Off - (Illusion - Everywhere you go) _ Remaster.m4a" type="audio/mpeg">
+            <source src="Brian Martin Signing Off - (Illusion - Everywhere you go) _ Remaster.wav" type="audio/wav">
+            <source src="Brian Martin Signing Off - (Illusion - Everywhere you go) _ Remaster.m4a" type="audio/mp4">
+            <source src="Brian Martin Signing Off - (Illusion - Everywhere you go) _ Remaster.opus" type="audio/ogg">
+            Your browser does not support the audio element.
+        </audio>
+        
+        <div class="download-section">
+            <h2 class="download-title">Download Options</h2>
+            <div class="download-buttons">
+                <a href="Brian Martin Signing Off - (Illusion - Everywhere you go) _ Remaster.wav" download class="download-btn">
+                    <span class="format-label">WAV</span>
+                    <div class="file-size">Lossless • 45 MB</div>
+                </a>
+                <a href="Brian Martin Signing Off - (Illusion - Everywhere you go) _ Remaster.m4a" download class="download-btn">
+                    <span class="format-label">M4A</span>
+                    <div class="file-size">High Quality • 8 MB</div>
+                </a>
+                <a href="Brian Martin Signing Off - (Illusion - Everywhere you go) _ Remaster.opus" download class="download-btn">
+                    <span class="format-label">OPUS</span>
+                    <div class="file-size">Efficient • 6 MB</div>
+                </a>
+                <a href="Brian Martin Signing Off - (Illusion - Everywhere you go) _ Remaster..mp3" download class="download-btn">
+                    <span class="format-label">MP3</span>
+                    <div class="file-size">Compatible • 7 MB</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-update runtime when audio loads
+        const audio = document.querySelector('.audio-player');
+        const runtimeElement = document.querySelector('.runtime');
+        
+        audio.addEventListener('loadedmetadata', function() {
+            const duration = audio.duration;
+            if (duration && !isNaN(duration)) {
+                const minutes = Math.floor(duration / 60);
+                const seconds = Math.floor(duration % 60);
+                runtimeElement.textContent = `Duration: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+        });
+
+        // Add download tracking (optional)
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const format = this.querySelector('.format-label').textContent;
+                console.log(`Download started: ${format} format`);
+                
+                // Optional: Add analytics or tracking here
+                // gtag('event', 'download', { 'format': format });
+            });
+        });
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === ' ' && e.target === document.body) {
+                e.preventDefault();
+                if (audio.paused) {
+                    audio.play();
+                } else {
+                    audio.pause();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
