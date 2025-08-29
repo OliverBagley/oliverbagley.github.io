@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>helper scripts</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            margin-top: 40px;
+        }
+        .code-container {
+            position: relative;
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow-x: hidden;
+        }
+        .code-container pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+        .code-container code {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .copy-btn:hover {
+            background-color: #2c5282;
+        }
+        .copy-btn::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3e%3c/svg%3e");
+            background-size: cover;
+            margin-right: 5px;
+        }
+        p {
+            margin: 10px 0;
+        }
+        small {
+            color: #626262;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 150px;
+            height: auto;
+        }
+        .script-section {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="proxmox.avif" alt="Proxmox Logo">
+    </div>
+    <h1>bash, cli and helper scripts for proxmox, lcxs, debian etc..</h1>
+    <div class="script-section">
+        <h2>Cloudflare speedtest CLI with dependencies and setup</h2>
+        <p>This script automates the installation and setup of the Cloudflare speedtest CLI tool, including all necessary dependencies, making it easy to run speed tests from the command line on systems like Proxmox, LCXS, or Debian.</p>
+        <div class="code-container">
+            <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+            <pre><code>bash -c "$(curl -fsSL https://raw.githubusercontent.com/OliverBagley/oliverbagley.github.io/master/bash/cloudspeed.sh)"</code></pre>
+        </div>
+        <p><small>Credit for speed-cloudflare-cli goes to <a href="https://github.com/KNawm/speed-cloudflare-cli" target="_blank">KNawm</a>.</small></p>
+    </div>
+    <div class="script-section">
+        <h2>Auto configure for avahi and mdns</h2>
+        <p>This script automates the installation and configuration of Avahi for mDNS, enabling service discovery on local networks for systems like Proxmox, LCXS, or Debian.</p>
+        <div class="code-container">
+            <button class="copy-btn" onclick="copyToClipboard2(this)">Copy</button>
+            <pre><code>bash -c "$(curl -fsSL https://raw.githubusercontent.com/OliverBagley/oliverbagley.github.io/master/bash/avahi-mdns.sh)"</code></pre>
+        </div>
+    </div>
+    <script>
+        function copyToClipboard(button) {
+            const code = `bash -c "$(curl -fsSL https://raw.githubusercontent.com/OliverBagley/oliverbagley.github.io/master/bash/cloudspeed.sh)"`;
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(code).then(() => {
+                    button.textContent = 'Copied!';
+                    setTimeout(() => button.textContent = 'Copy', 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            } else {
+                const textArea = document.createElement('textarea');
+                textArea.value = code;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                button.textContent = 'Copied!';
+                setTimeout(() => button.textContent = 'Copy', 2000);
+            }
+        }
+        function copyToClipboard2(button) {
+            const code = `bash -c "$(curl -fsSL https://raw.githubusercontent.com/OliverBagley/oliverbagley.github.io/master/bash/avahi-mdns.sh)"`;
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(code).then(() => {
+                    button.textContent = 'Copied!';
+                    setTimeout(() => button.textContent = 'Copy', 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            } else {
+                const textArea = document.createElement('textarea');
+                textArea.value = code;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                button.textContent = 'Copied!';
+                setTimeout(() => button.textContent = 'Copy', 2000);
+            }
+        }
+    </script>
+</body>
+</html>
