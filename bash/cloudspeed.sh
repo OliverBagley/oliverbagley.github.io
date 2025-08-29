@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+# Check we are root
+if [ "$EUID" -ne 0 ]; then
+  echo "❌ This script must be run as root"
+  exit 1
+fi
+
 echo ">>> Updating system..."
 apt update -y
 
@@ -29,5 +35,5 @@ EOF
 
 chmod +x /usr/local/bin/cloudspeed
 
-echo ">>> Done!"
+echo ">>> ✅ Done!"
 echo "Run the speed test with: cloudspeed"
