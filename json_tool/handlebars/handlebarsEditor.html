@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSON Product Page Editor</title>
+    <base href="./">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/fold/foldgutter.min.css" />
+    <link rel="stylesheet" href="editorPreviewStyle.css" />
+    <link rel="stylesheet" href="src/editor.css" />
+  </head>
+  <body>
+    <div class="editor-container">
+      <!-- Editor Panel -->
+      <div class="editor-panel">
+        <div class="panel-header">
+          <h2><i class="fas fa-code"></i> JSON Editor</h2>
+          <button class="btn" onclick="downloadJSON()"><i class="fas fa-download"></i> Download</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> Upload</button>
+          <input type="file" id="fileInput" class="file-input" accept=".json" onchange="uploadJSON(event)" />
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <div id="editorContainer"></div>
+
+        <div class="status-bar">
+          <span id="statusText">Ready</span>
+          <span id="charCount">0 characters</span>
+        </div>
+      </div>
+
+      <!-- Preview Panel -->
+      <div class="preview-panel">
+        <div class="panel-header">
+          <h2><i class="fas fa-eye"></i> Live Preview</h2>
+          <button class="btn btn-secondary" onclick="refreshPreview()"><i class="fas fa-refresh"></i> Refresh</button>
+        </div>
+
+        <div id="previewContent" class="preview-content"></div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/fold/foldcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/fold/foldgutter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/fold/brace-fold.min.js"></script>
+    <script src="src/editor.js"></script>
+  </body>
+</html>

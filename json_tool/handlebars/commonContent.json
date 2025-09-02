@@ -1,0 +1,178 @@
+{
+  "iconMappings": {
+    "calloutFeatureBadgeIcons": {
+      "Lightweight": "fas fa-feather-alt",
+      "Easy to ride": "fas fa-bullseye", 
+      "Confidence boosting": "fas fa-shield-alt",
+      "Grows with your child": "fas fa-arrow-up",
+      "Ultra Lightweight": "fas fa-feather-alt",
+      "Award Winning": "fas fa-award",
+      "Safety First": "fas fa-shield-alt",
+      "All Terrain": "fas fa-mountain",
+      "Easy Assembly": "fas fa-tools"
+    },
+    "productSpecificationIcons": {
+      "Age Range": "fas fa-users",
+      "Wheel Size": "fas fa-circle-notch",
+      "Inside Leg": "fas fa-ruler",
+      "Weight": "fas fa-weight",
+      "Adaptability": "fas fa-cogs",
+      "Gears": "fas fa-cogs",
+      "Frame Size": "fas fa-expand-arrows-alt",
+      "Colors": "fas fa-palette",
+      "Type": "fas fa-cogs"
+    },
+    "quickFeatureCardIcons": {
+      "Kid-friendly design with safety in mind": "fas fa-shield-alt",
+      "The perfect transition from a balance bike": "fas fa-chart-line",
+      "Versatile performance": "fas fa-road",
+      "Health and fitness": "fas fa-heart",
+      "Family-friendly design": "fas fa-users-cog",
+      "Eco-friendly transport": "fas fa-leaf"
+    },
+    "sidebarInfoCardIcons": {
+      "In the box": "fas fa-box",
+      "Toolkit included!": "fas fa-tools",
+      "Premium accessories included": "fas fa-gift",
+      "Professional toolkit": "fas fa-tools",
+      "Educational materials": "fas fa-book",
+      "Bike assembly – Quick & easy setup": "fas fa-clock"
+    }
+  },
+  "productDetails": {
+    "productTitle": "REQUIRED ENTRY IN PRODUCT SPECIFIC JSON - RECOMPILE",
+    "productTagline": "REQUIRED ENTRY IN PRODUCT SPECIFIC JSON - RECOMPILE",
+    "productEyebrow": "REQUIRED ENTRY IN PRODUCT SPECIFIC JSON - RECOMPILE",
+    "productSubtitle": "REQUIRED ENTRY IN PRODUCT SPECIFIC JSON - RECOMPILE"
+  },
+  "calloutFeatureBadges": [
+    "REQUIRED ENTRY IN PRODUCT SPECIFIC JSON - RECOMPILE"
+  ],
+  "productSpecificationCards": [
+    ["REQUIRED ENTRY", "RECOMPILE"]
+  ],
+  "featuresSection": {
+    "featuresTitle": "REQUIRED ENTRY IN PRODUCT SPECIFIC JSON - RECOMPILE",
+    "featuresSubtitle": "REQUIRED ENTRY IN PRODUCT SPECIFIC JSON - RECOMPILE",
+    "detailedFeatureBlocks": [
+      {
+        "title": "REQUIRED ENTRY IN PRODUCT SPECIFIC JSON - RECOMPILE",
+        "description": "REQUIRED ENTRY IN PRODUCT SPECIFIC JSON - RECOMPILE",
+        "image": {
+          "src": "placeholder/error",
+          "alt": "REQUIRED ENTRY IN PRODUCT SPECIFIC JSON - RECOMPILE"
+        }
+      }
+    ],
+    "quickFeatureCards": [
+      ["REQUIRED ENTRY", "REQUIRED ENTRY IN PRODUCT SPECIFIC JSON - RECOMPILE"]
+    ]
+  },
+  "heroCallToActionButtons": [
+    ["#features", "Explore features", "btn btn-primary"],
+    ["#included", "What's included", "btn btn-secondary"]
+  ],
+  "whatsIncludedSection": {
+    "includedTitle": "Ready to ride, What's in the box?",
+    "includedSubtitle": "Get from package to pedal in just a few simple steps. Your Frog bike arrives 95% pre-assembled, so you can focus on the fun part – riding!",
+    "mainAssemblyInfo": {
+      "title": "Bike assembly – Quick & easy setup",
+      "description": "Your Frog bike arrives 95% pre-assembled to ensure safe delivery and a hassle-free setup experience. Only a few simple steps are needed to get your child's new bike ready to ride:",
+      "assembly_steps": ["Align and secure the handlebars (pre-positioned for transit)", "Attach the pedals (packaged separately for safety)"],
+      "tools": ["5mm and 6mm hex keys (Allen wrenches)", "15mm open-end spanner"],
+      "footer_text": "Clear <a href=\"https://www.frogbikes.com/en_GB/info/newbike.html\" target=\"_blank\" rel=\"noopener\" style=\"color: var(--brand-primary); text-decoration: none\">step-by-step assembly instructions</a> are available on our website and included in the box. Need help? Our expert customer support team is always ready to guide you through the process."
+    },
+    "sidebarInfoCards": [
+      ["", "In the box", ["Instruction manual", "Bell for fun"]],
+      ["", "Toolkit included!", "95% pre-build, pre‑aligned components and included tools mean less time wrenching, more time riding."]
+    ]
+  },
+  "warrantySection": {
+    "warrantyTitle": "Protect their bike with warranty cover",
+    "warrantySubtitle": "Ride worry‑free with comprehensive coverage and optional extended protection.",
+    "standardWarranty": {
+      "title": "2 Year Standard Warranty",
+      "icon": "fas fa-wrench",
+      "badge": "Free warranty on all bikes",
+      "description": "At Frog Bikes, we stand by the quality of our products with a standard 2-year warranty covering all frames, forks, parts, and paintwork (excluding tyres and inner tubes). Suspension forks are also covered by a 2-year warranty but are not included in our extended warranty offer.",
+      "button": {
+        "text": "Standard warranty",
+        "href": "https://www.frogbikes.com/en_GB/info/warranty.html"
+      }
+    },
+    "premiumWarranty": {
+      "title": "Warranty Plus",
+      "icon": "fas fa-medal",
+      "badge": "Free upgrade to 10‑year cover",
+      "description": "Looking for extra peace of mind? Activate your FREE 10-year extended consumer warranty on frames and forks (excluding MTB suspension forks) within 28 days of purchase. Keep them riding longer with lasting protection and support from Frog.",
+      "features": ["FREE 10-year frame & fork cover", "Simple online activation", "Extended peace of mind", "Backed by Frog expertise"],
+      "button": {
+        "text": "Get Warranty Plus",
+        "href": "https://www.frogbikes.com/en_GB/info/warranty/warranty-plus.html"
+      }
+    },
+    "warrantyDisclaimer": "This extended warranty is available for new, full-priced bikes and bikes purchased directly from our Frog Factory Outlet."
+  },
+  "deliverySection": {
+    "deliveryTitle": "Assembled, checked & delivered with care",
+    "deliverySubtitle": "Your Frog bike is built, inspected, and delivered to your door with free standard delivery to mainland UK addresses.",
+    "deliveryInfoCards": [
+      {
+        "title": "Free delivery",
+        "description": "<strong>Free standard delivery</strong> is available for consumer orders shipping to mainland UK addresses.*",
+        "icon": "fas fa-box",
+        "icon_size": "34px"
+      },
+      {
+        "title": "Pre‑assembly",
+        "description": "All Frog kids' bikes are carefully assembled, <strong>quality-checked</strong>, and typically dispatched within 5 business days of order confirmation.",
+        "icon": "fas fa-bullseye",
+        "icon_size": "34px"
+      },
+      {
+        "title": "Quality checks",
+        "description": "All of our bikes are built, checked and <strong>inspected</strong>, passing a full bike PDI before being packed and shipped to you.",
+        "icon": "fas fa-check-circle",
+        "icon_size": "34px"
+      }
+    ],
+    "deliveryDisclaimer": "*For deliveries to non-mainland locations, such as Northern Ireland, the Isle of Man, the Channel Islands, or the Scottish Highlands and Islands, additional local taxes, customs fees, or carrier surcharges may apply. These charges are the responsibility of the customer."
+  },
+  "supportSection": {
+    "supportTitle": "We're here to help",
+    "supportSubtitle": "We want you to have the best experience with your new Frog Bike, so our customer service team are only a click or call away!",
+    "supportCards": [
+      {
+        "icon": "fas fa-phone",
+        "title": "Need help? We're here for you",
+        "description": "Our friendly and knowledgeable customer support team is ready to assist you with anything you need, from order updates and product questions to assembly guidance and warranty information. We're here to make your experience smooth and stress-free.",
+        "detail": "Get in touch via email or phone, and we'll be happy to help!",
+        "buttons": [
+          {
+            "text": "Common questions",
+            "href": "https://www.frogbikes.com/en_GB/info/faqs.html",
+            "class": "btn btn-primary"
+          },
+          {
+            "text": "Talk to our team",
+            "href": "https://www.frogbikes.com/en_GB/info/newbike.html",
+            "class": "btn btn-secondary"
+          }
+        ],
+        "inverted": true
+      },
+      {
+        "icon": "fas fa-question-circle",
+        "icon_color": "var(--brand-primary)",
+        "title": "Got questions?",
+        "description": "Before reaching out, check out our Frequently Asked Questions (FAQ) page; it's the quickest way to find clear, helpful answers to common queries. From choosing the right bike size and understanding delivery times to assembly tips and warranty info, we've covered all the essentials.",
+        "detail": "If you can't find what you're looking for, our support team is always just a click away.",
+        "button": {
+          "text": "Read our FAQs",
+          "href": "https://www.frogbikes.com/en_GB/info/faqs.html"
+        },
+        "inverted": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+@font-face{font-family:"Titillium Web";font-style:normal;font-weight:300;font-display:swap;src:url("https://fonts.gstatic.com/s/titilliumweb/v18/NaPDcZTIAOhVxoMyOr9n_E7ffGjEGItzY5abuWI.woff2") format("woff2");unicode-range:U+0000-00FF}
+@font-face{font-family:"Titillium Web";font-style:normal;font-weight:300;font-display:swap;src:url("https://fonts.gstatic.com/s/titilliumweb/v18/NaPDcZTIAOhVxoMyOr9n_E7ffGjEGIVzY5abuWIGxA.woff2") format("woff2");unicode-range:U+0100-017F}
+@font-face{font-family:"Titillium Web";font-style:normal;font-weight:400;font-display:swap;src:url("https://fonts.gstatic.com/s/titilliumweb/v18/NaPecZTIAOhVxoMyOr9n_E7fdMPmDaZRbrw.woff2") format("woff2");unicode-range:U+0000-00FF}
+@font-face{font-family:"Titillium Web";font-style:normal;font-weight:400;font-display:swap;src:url("https://fonts.gstatic.com/s/titilliumweb/v18/NaPecZTIAOhVxoMyOr9n_E7fdM3mDaZRbryhsA.woff2") format("woff2");unicode-range:U+0100-017F}
+@font-face{font-family:"Titillium Web";font-style:normal;font-weight:700;font-display:swap;src:url("https://fonts.gstatic.com/s/titilliumweb/v18/NaPDcZTIAOhVxoMyOr9n_E7ffHjDGItzY5abuWI.woff2") format("woff2");unicode-range:U+0000-00FF}
+@font-face{font-family:"Titillium Web";font-style:normal;font-weight:700;font-display:swap;src:url("https://fonts.gstatic.com/s/titilliumweb/v18/NaPDcZTIAOhVxoMyOr9n_E7ffHjDGIVzY5abuWIGxA.woff2") format("woff2");unicode-range:U+0100-017F}
+
+.frg-product-detail {
+  color: var(--text-primary);
+  font-family:"Titillium Web", -apple-system, BlinkMacSystemFont, Arial, sans-serif!important;color: #2d4843!important;
+}

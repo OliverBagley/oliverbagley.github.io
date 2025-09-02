@@ -1,0 +1,169 @@
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        height: 100vh;
+        overflow: hidden;
+        background: #f5f5f5;
+      }
+
+      .editor-container {
+        display: flex;
+        height: 100vh;
+      }
+
+      .editor-panel {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        border-right: 2px solid #ddd;
+        height: 100vh;
+      }
+
+      .preview-panel {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+
+      .panel-header {
+        background: #2d4843;
+        color: white;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+        min-height: 60px;
+        flex-shrink: 0;
+      }
+
+      .panel-header h2 {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      .btn {
+        background: #81be41;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background 0.2s;
+      }
+
+      .btn:hover {
+        background: #567f2b;
+      }
+
+      .btn-secondary {
+        background: #628175;
+      }
+
+      .btn-secondary:hover {
+        background: #4a6159;
+      }
+
+      #editorContainer {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      .editor-container .CodeMirror {
+        flex: 1;
+        height: 100%;
+        font-size: 14px;
+        line-height: 1.5;
+        border: none;
+      }
+
+      .editor-container .CodeMirror-scroll {
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: auto;
+      }
+
+      .preview-content {
+        flex: 1;
+        padding: 0;
+        margin: 0;
+        overflow-y: auto;
+        background: white;
+        min-height: 0;
+      }
+
+      .error-message {
+        background: #fee;
+        color: #c33;
+        padding: 12px 16px;
+        border-left: 4px solid #c33;
+        margin: 8px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 12px;
+        display: none;
+        flex-shrink: 0;
+      }
+
+      .success-message {
+        background: #efe;
+        color: #363;
+        padding: 8px 16px;
+        border-left: 4px solid #363;
+        margin: 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        display: none;
+        flex-shrink: 0;
+      }
+
+      .file-input {
+        display: none;
+      }
+
+      .status-bar {
+        background: #f8f9fa;
+        padding: 8px 16px;
+        border-top: 1px solid #ddd;
+        font-size: 12px;
+        color: #666;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+      }
+
+      /* Simple highlighting styles */
+      .preview-highlight {
+        background: rgba(129, 190, 65, 0.2) !important;
+        outline: 2px solid #81be41 !important;
+        transition: all 0.2s ease !important;
+        border-radius: 4px !important;
+      }
+
+      @media (max-width: 768px) {
+        .editor-container {
+          flex-direction: column;
+        }
+
+        .editor-panel,
+        .preview-panel {
+          width: 100%;
+          height: 50vh;
+        }
+
+        .editor-panel {
+          border-right: none;
+          border-bottom: 2px solid #ddd;
+        }
+      }

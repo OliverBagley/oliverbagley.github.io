@@ -1,0 +1,300 @@
+{{!-- Compiled template with inlined partials --}}
+{{!-- Helpers needed:  --}}
+
+<div class="frg-product-detail" id="frg-prod-detail">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>{{{css}}}</style>
+
+  <!-- Hero Section -->
+  {{! Hero Section Partial }}
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <p class="eyebrow">{{productDetails.productEyebrow}}</p>
+      <h1>{{productDetails.productTitle}} | {{productDetails.productTagline}}</h1>
+      <p class="hero-subtitle">
+        {{productDetails.productSubtitle}}
+      </p>
+
+      <div class="badges">
+        {{#each calloutFeatureBadges}}
+        <span class="badge">
+          <i class="{{lookup @root.iconMappings.calloutFeatureBadgeIcons this}}"></i>
+          {{this}}
+        </span>
+        {{/each}}
+      </div>
+
+      <div class="btn-group">
+        {{#each heroCallToActionButtons}}
+        <a href="{{this.[0]}}" class="{{this.[2]}}">{{this.[1]}}</a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Product Specifications Section -->
+  {{! Product Specifications Partial }}
+<section class="product-specs-section">
+  <div class="container">
+    <div class="product-specs-grid">
+      {{#each productSpecificationCards}}
+      <div class="spec-showcase-item">
+        <div class="spec-showcase-icon">
+          <i class="{{lookup @root.iconMappings.productSpecificationIcons this.[0]}}"></i>
+        </div>
+        <h3 class="spec-showcase-title">{{this.[0]}}</h3>
+        <p class="spec-showcase-value">{{this.[1]}}</p>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+  <!-- Features Section -->
+  <section class="section" id="features">
+    <div class="container">
+      {{! Section Header Partial }}
+<div class="section-header">
+  <h2>{{title}}</h2>
+  {{#if subtitle}}
+  <p class="lead">{{subtitle}}</p>
+  {{/if}}
+</div>
+
+      <div class="features-container">
+        {{#each featuresSection.detailedFeatureBlocks}}
+        {{! Feature Block Partial }}
+<div class="feature-block">
+  <div class="feature-content">
+    <h3>{{title}}</h3>
+    <p>{{description}}</p>
+  </div>
+  <div class="feature-image">
+    <picture>
+      <source srcset="media/productImages/{{image.src}}.avif" type="image/avif">
+      <img src="media/productImages/{{image.src}}.webp" alt="{{image.alt}}" loading="lazy">
+    </picture>
+  </div>
+</div>
+        {{/each}}
+
+        <div class="features-grid">
+          {{#each featuresSection.quickFeatureCards}}
+          {{! Feature Card Partial - 2-element array format: [title, description] with icon lookup }}
+<div class="feature-card">
+  <div class="feature-icon">
+    <i class="{{lookup @root.iconMappings.quickFeatureCardIcons this.[0]}}" style="font-size: 2.4rem; width: auto; height: auto;"></i>
+  </div>
+  <h3>{{this.[0]}}</h3>
+  <p class="feature-text">{{this.[1]}}</p>
+</div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What's Included Section -->
+  <section class="section" id="included">
+    <div class="container">
+      {{! Section Header Partial }}
+<div class="section-header">
+  <h2>{{title}}</h2>
+  {{#if subtitle}}
+  <p class="lead">{{subtitle}}</p>
+  {{/if}}
+</div>
+
+      <div class="included-grid">
+        <div class="included-main">
+          <div class="info-card">
+            <div class="info-card-header">
+              <div class="info-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <h3>{{whatsIncludedSection.mainAssemblyInfo.title}}</h3>
+            </div>
+            <p>{{whatsIncludedSection.mainAssemblyInfo.description}}</p>
+
+            <div class="assembly-details">
+              <div class="assembly-section">
+                <h4>Assembly steps:</h4>
+                <ol class="checklist">
+                  {{#each whatsIncludedSection.mainAssemblyInfo.assembly_steps}}
+                  <li>{{this}}</li>
+                  {{/each}}
+                </ol>
+              </div>
+
+              <div class="assembly-section">
+                <h4>Tools included:</h4>
+                <ul class="list">
+                  {{#each whatsIncludedSection.mainAssemblyInfo.tools}}
+                  <li>{{this}}</li>
+                  {{/each}}
+                </ul>
+              </div>
+            </div>
+
+            <p>{{{whatsIncludedSection.mainAssemblyInfo.footer_text}}}</p>
+          </div>
+        </div>
+
+        <div class="included-sidebar">
+          {{#each whatsIncludedSection.sidebarInfoCards}}
+          {{! Info Card Partial - 3-element array format: [icon, title, content] }}
+<div class="info-card">
+  <div class="info-card-header">
+    <div class="info-icon">
+      <i class="{{lookup @root.iconMappings.sidebarInfoCardIcons this.[1]}}"></i>
+    </div>
+    <h3>{{this.[1]}}</h3>
+  </div>
+  {{#if (isArray this.[2])}}
+  <ul class="list">
+    {{#each this.[2]}}
+    <li>{{{this}}}</li>
+    {{/each}}
+  </ul>
+  {{else}}
+  <p>{{this.[2]}}</p>
+  {{/if}}
+</div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Warranty Section -->
+  <section class="section" id="warranty">
+    <div class="container">
+      <div class="section-header">
+        <h2>{{warrantySection.warrantyTitle}}</h2>
+        <p class="lead">{{warrantySection.warrantySubtitle}}</p>
+      </div>
+
+      <div class="warranty-grid">
+        <div class="warranty-card">
+          <h3>
+            <i class="{{warrantySection.standardWarranty.icon}}" style="font-size: 2.4rem; margin-right: 12px; vertical-align: middle;"></i>
+            {{warrantySection.standardWarranty.title}}
+          </h3>
+          <span class="warranty-badge">{{warrantySection.standardWarranty.badge}}</span>
+          <p>{{warrantySection.standardWarranty.description}}</p>
+          <div class="warranty-button-container">
+            <a href="{{warrantySection.standardWarranty.button.href}}" target="_blank" rel="noopener" class="btn btn-primary">{{warrantySection.standardWarranty.button.text}}</a>
+          </div>
+        </div>
+
+        <div class="warranty-card warranty-premium">
+          <h3>
+            <i class="{{warrantySection.premiumWarranty.icon}}" style="font-size: 2.4rem; margin-right: 12px; vertical-align: middle;"></i>
+            {{warrantySection.premiumWarranty.title}}
+          </h3>
+          <span class="warranty-badge premium">{{warrantySection.premiumWarranty.badge}}</span>
+          <p>{{warrantySection.premiumWarranty.description}}</p>
+
+          <ul class="warranty-features">
+            {{#each warrantySection.premiumWarranty.features}}
+            <li>{{this}}</li>
+            {{/each}}
+          </ul>
+
+          <div class="warranty-button-container">
+            <a href="{{warrantySection.premiumWarranty.button.href}}" target="_blank" rel="noopener" class="btn btn-primary">{{warrantySection.premiumWarranty.button.text}}</a>
+          </div>
+        </div>
+      </div>
+      <p class="warranty-small">{{warrantySection.warrantyDisclaimer}}</p>
+    </div>
+  </section>
+
+  <!-- Delivery Section -->
+  <section class="section" id="delivery">
+    <div class="container">
+      <div class="section-header">
+        <h2>{{deliverySection.deliveryTitle}}</h2>
+        <p class="lead">{{deliverySection.deliverySubtitle}}</p>
+      </div>
+
+      <div class="delivery-grid">
+        {{#each deliverySection.deliveryInfoCards}}
+        <div class="delivery-card">
+          <h3>
+            <div class="delivery-icon">
+              <i class="{{icon}}" style="width: {{icon_size}}; height: {{icon_size}}; font-size: {{icon_size}}"></i>
+            </div>
+            {{title}}
+          </h3>
+          <p>{{{description}}}</p>
+        </div>
+        {{/each}}
+      </div>
+
+      <p class="delivery-disclaimer">
+        <em>{{deliverySection.deliveryDisclaimer}}</em>
+      </p>
+    </div>
+  </section>
+
+  <!-- Support Section -->
+  <section class="section" id="support" style="margin-bottom: 0 !important; padding-bottom: 0 !important">
+    <div class="container">
+      <div class="section-header">
+        <h2>{{supportSection.supportTitle}}</h2>
+        <p class="lead">{{supportSection.supportSubtitle}}</p>
+      </div>
+      <div class="support-grid">
+        {{#each supportSection.supportCards}}
+        <div class="support-card{{#if inverted}} support-card--inverted{{/if}}">
+          <h3>
+            <i class="{{icon}}" style="width: 32px; height: 32px; font-size: 32px; margin-right: 12px{{#if icon_color}}; color: {{icon_color}}{{/if}}"></i>
+            {{title}}
+          </h3>
+          <p>{{description}}</p>
+          <p>{{detail}}</p>
+          <div class="support-button-container">
+            {{#if buttons}}
+            <div class="btn-group">
+              {{#each buttons}}
+              <a href="{{href}}" target="_blank" rel="noopener" class="{{class}}">{{text}}</a>
+              {{/each}}
+            </div>
+            {{else}}
+            <a href="{{button.href}}" target="_blank" rel="noopener" class="btn btn-primary">{{button.text}}</a>
+            {{/if}}
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  ;(function () {
+    "use strict"
+    const e = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    function t() {
+      document.querySelectorAll('a[href^="#"]').forEach((e) => {
+        e.addEventListener("click", function (e) {
+          e.preventDefault()
+          const t = document.querySelector(this.getAttribute("href"))
+          t && t.scrollIntoView({ behavior: "smooth", block: "start" })
+        })
+      })
+    }
+    function n() {
+      document.querySelectorAll('a[target="_blank"]').forEach((e) => {
+        e.rel.includes("noopener") || (e.rel = e.rel ? e.rel + " noopener" : "noopener")
+      })
+    }
+    function a() {
+      t(), n()
+    }
+    "loading" === document.readyState ? document.addEventListener("DOMContentLoaded", a) : a()
+  })()
+</script>
