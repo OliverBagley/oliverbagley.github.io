@@ -1,4 +1,4 @@
- // Global variables
+// Global variables
       let template
       let debounceTimer
       let editor
@@ -405,12 +405,27 @@
           const jsonText = editor.getValue()
           const data = JSON.parse(jsonText)
 
+          // Derive default filename from product title
+          const title = (data && data.productDetails && data.productDetails.productTitle) || 'product-page'
+          // sanitize: lowercase, replace non-alphanumeric with underscores, collapse multiple underscores
+          let baseName = String(title).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/__+/g, '_').replace(/^_+|_+$/g, '')
+          if (!baseName) baseName = 'product-page'
+          const defaultFileName = `${baseName}.json`
+
+          // Prompt user to confirm/edit filename
+          const userInput = window.prompt('Enter filename for download (including .json)', defaultFileName)
+          if (userInput === null) return // user cancelled
+
+          let fileName = String(userInput).trim()
+          if (!fileName) fileName = defaultFileName
+          if (!fileName.toLowerCase().endsWith('.json')) fileName = fileName + '.json'
+
           // Create blob and download
-          const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })
+          const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
           const url = URL.createObjectURL(blob)
-          const a = document.createElement("a")
+          const a = document.createElement('a')
           a.href = url
-          a.download = "product-page.json"
+          a.download = fileName
           document.body.appendChild(a)
           a.click()
           document.body.removeChild(a)
