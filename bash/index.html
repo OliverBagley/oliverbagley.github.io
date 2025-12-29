@@ -130,7 +130,7 @@
             }
         }
         function copyToClipboard2(button) {
-            const code = `bash -c "$(curl -fsSL https://raw.githubusercontent.com/OliverBagley/oliverbagley.github.io/master/bash/avahi-mdns.sh)"`;
+            const code = `bash -c "$(curl -fsSL https://raw.githubusercontent.com/OliverBagley/oliverbagley.github.io/master/bash/mdns.sh)"`;
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(code).then(() => {
                     button.textContent = 'Copied!';
