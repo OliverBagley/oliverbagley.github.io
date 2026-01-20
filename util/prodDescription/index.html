@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Description Generator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            padding: 2rem;
+        }
+        .main-content {
+            flex: 1;
+        }
+        .site-footer {
+            text-align: center;
+            padding: 1rem 0;
+            font-size: 12px;
+            color: #888;
+        }
+        #preview {
+            border: 1px solid #ccc;
+            padding: 1rem;
+            min-height: 500px;
+            height: fit-content!important;
+            background: #f8f9fa;
+            color: #2d4843!important;
+        }
+        .code-box-wrapper {
+            position: relative;
+        }
+        .code-box {
+            width: 100%;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            min-height: 250px !important;
+        }
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        /* Preview Styles */
+        @import url("https://fonts.googleapis.com/css?family=Titillium+Web");
+        div#preview {
+            font-family: "Titillium Web", sans-serif !important;
+        }
+        div#preview h1,
+        div#preview h2,
+        div#preview h3,
+        div#preview h4,
+        div#preview h5,
+        div#preview h6 {
+            font-weight: 600;
+        }
+        div#preview p {
+            margin-bottom: 1rem;
+        }
+        div#preview ul,
+        div#preview ol {
+            margin-top: 0rem;
+            margin-bottom: 2.75rem;
+        }
+        div#preview ul>li,
+        div#preview ol>li {
+            margin-top: 0rem;
+            margin-bottom: 0.25rem;
+        }
+        div#preview ul {
+            margin-bottom: 1px !important;
+        }
+        div#preview figure {
+            margin: 0;
+        }
+        div#preview table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            max-width: 100%;
+        }
+        div#preview table th,
+        div#preview table td {
+            text-align: left!important;
+        }
+        div#preview table>thead>tr>th,
+        div#preview table>tbody>tr>th,
+        div#preview table>tfoot>tr>th,
+        div#preview table>thead>tr>td,
+        div#preview table>tbody>tr>td,
+        div#preview table>tfoot>tr>td {
+            padding: 11px 11px;
+        }
+    </style>
+</head>
+<body>
+    <section class="section main-content">
+        <div class="container is-fluid">
+            <h1 class="title">Product Description Generator</h1>
+
+            <div class="columns">
+                <!-- Input Column -->
+                <div class="column is-half">
+                    <h2 class="subtitle">Input</h2>
+                    <div class="field">
+                        <label class="label" for="title">Title</label>
+                        <div class="control">
+                            <input class="input" type="text" id="title" value="ADVENT Medium Cage Clutch Rear Derailleur" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label" for="description">Description</label>
+                        <div class="control">
+                            <textarea class="textarea" id="description" rows="10">Designed with real life riders in mind, the ADVENT rear derailleur packs trail-ready features into the most attainable wide range drivetrain on the market. The clutch uses a proprietary ratchet-and-pawl tension assembly for more durable and stronger chain management over rough terrain. This modular design is also easily adjustable and fully repairable. The derailleur kinematics are also precisely tuned to use a more direct cable path, making the shifting response consistent across all gears. With bombproof construction capable of handling the realest mountain bike abuse, ADVENT competes favorably with drivetrains that cost twice as much.</textarea>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <h3 class="subtitle is-4">Features</h3>
+                    <div id="features-container">
+                        <div class="field has-addons mb-2">
+                            <div class="control is-expanded">
+                                <input class="input" type="text" value="Reliable ratchet-and-pawl clutch is easily adjustable and repairable" />
+                            </div>
+                            <div class="control">
+                                <button class="button is-danger" type="button" onclick="removeParent(this, 2)">Remove</button>
+                            </div>
+                        </div>
+                        <div class="field has-addons mb-2">
+                            <div class="control is-expanded">
+                                <input class="input" type="text" value="Direct path cable routing for smooth and responsive shifting" />
+                            </div>
+                            <div class="control">
+                                <button class="button is-danger" type="button" onclick="removeParent(this, 2)">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="button is-primary" type="button" onclick="addFeature()">Add Feature</button>
+
+                    <hr />
+
+                    <h3 class="subtitle is-4">Specs</h3>
+                    <div id="specs-container">
+                        <div class="columns is-mobile mb-2">
+                            <div class="column is-5">
+                                <input class="input" type="text" placeholder="Label" value="Group" />
+                            </div>
+                            <div class="column is-5">
+                                <input class="input" type="text" placeholder="Value" value="ADVENT" />
+                            </div>
+                            <div class="column is-2">
+                                <button class="button is-danger" type="button" onclick="removeParent(this, 2)">Remove</button>
+                            </div>
+                        </div>
+                        <div class="columns is-mobile mb-2">
+                            <div class="column is-5">
+                                <input class="input" type="text" placeholder="Label" value="Speed" />
+                            </div>
+                            <div class="column is-5">
+                                <input class="input" type="text" placeholder="Value" value="9-Speed" />
+                            </div>
+                            <div class="column is-2">
+                                <button class="button is-danger" type="button" onclick="removeParent(this, 2)">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="button is-primary" type="button" onclick="addSpec()">Add Spec</button>
+                </div>
+
+                <!-- Output Column -->
+                <div class="column is-half">
+                    <h2 class="subtitle">Preview</h2>
+                    <div id="preview" class="content"></div>
+
+                    <h2 class="subtitle mt-4">HTML Output</h2>
+                    <div class="code-box-wrapper">
+                        <textarea id="html-output" class="textarea code-box" readonly></textarea>
+                        <button class="button is-light copy-button" onclick="copyToClipboard('html-output', this)">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        2026 - www.oliverbagley.com
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
+
+    <script id="description-template" type="text/x-handlebars-template">
+        <div id="frg-d-main">
+            <h3 class="frg-d-title">{{title}}</h3>
+            <p class="frg-d-text">
+                {{description}}
+            </p>
+            <h4 class="frg-d-subtitle">Features</h4>
+            <ul class="frg-d-bullets">
+                {{#each features}}
+                <li>{{this}}</li>
+                {{/each}}
+            </ul>
+            <figure class="frg-d-specs">
+                <table class="frg-d-specs-table">
+                    <tbody>
+                        {{#each specs}}
+                        <tr>
+                            <th class="frg-d-spec-item">{{this.label}}</th>
+                            <td class="frg-d-spec-value">{{this.value}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </figure>
+        </div>
+    </script>
+
+    <script>
+        const titleInput = document.getElementById("title");
+        const descriptionInput = document.getElementById("description");
+        const featuresContainer = document.getElementById("features-container");
+        const specsContainer = document.getElementById("specs-container");
+        const preview = document.getElementById("preview");
+        const htmlOutput = document.getElementById("html-output");
+
+        const templateSource = document.getElementById("description-template").innerHTML.trim();
+        const template = Handlebars.compile(templateSource);
+
+        function formatHtml(html) {
+            const tab = '  ';
+            let result = '';
+            let indent = '';
+
+            html.split(/>\s*</).forEach(function(element) {
+                if (element.match(/^\/\w/)) {
+                    indent = indent.substring(tab.length);
+                }
+
+                result += indent + '<' + element + '>\r\n';
+
+                if (element.match(/^<?\w[^>]*[^\/]$/) && !element.startsWith("input")) {
+                   indent += tab;
+                }
+            });
+
+            return result.substring(1, result.length - 3);
+        }
+
+        function generate() {
+            const title = titleInput.value;
+            const description = descriptionInput.value;
+
+            const features = Array.from(featuresContainer.querySelectorAll("input"))
+                .map((input) => input.value)
+                .filter((val) => val.trim() !== "");
+
+            const specs = [];
+            specsContainer.querySelectorAll(".columns").forEach((row) => {
+                const inputs = row.querySelectorAll("input");
+                if (inputs.length > 1) {
+                    const label = inputs[0].value;
+                    const value = inputs[1].value;
+                    if (label.trim() !== "" && value.trim() !== "") {
+                        specs.push({ label, value });
+                    }
+                }
+            });
+
+            const data = { title, description, features, specs };
+            const rawResult = template(data);
+
+            preview.innerHTML = rawResult;
+            htmlOutput.value = formatHtml(rawResult);
+        }
+
+        function addFeature() {
+            const div = document.createElement("div");
+            div.className = "field has-addons mb-2";
+            div.innerHTML = "
+                <div class=\"control is-expanded\">
+                    <input class=\"input\" type=\"text\" placeholder=\"New Feature\">
+                </div>
+                <div class=\"control\">
+                    <button class=\"button is-danger\" type=\"button\" onclick=\"removeParent(this, 2)\">Remove</button>
+                </div>
+            ";
+            featuresContainer.appendChild(div);
+            div.querySelector("input").addEventListener("input", generate);
+        }
+
+        function addSpec() {
+            const div = document.createElement("div");
+            div.className = "columns is-mobile mb-2";
+            div.innerHTML = "
+                <div class=\"column is-5\">
+                    <input class=\"input\" type=\"text\" placeholder=\"Label\">
+                </div>
+                <div class=\"column is-5\">
+                    <input class=\"input\" type=\"text\" placeholder=\"Value\">
+                </div>
+                <div class=\"column is-2\">
+                    <button class=\"button is-danger\" type=\"button\" onclick=\"removeParent(this, 2)\">Remove</button>
+                </div>
+            ";
+            specsContainer.appendChild(div);
+            div.querySelectorAll("input").forEach((input) => {
+                input.addEventListener("input", generate);
+            });
+        }
+
+        function removeParent(element, levels = 1) {
+            let parent = element;
+            for (let i = 0; i < levels; i++) {
+                parent = parent.parentElement;
+            }
+            parent.remove();
+            generate();
+        }
+
+        function copyToClipboard(elementId, buttonElement) {
+            const textarea = document.getElementById(elementId);
+            navigator.clipboard.writeText(textarea.value).then(() => {
+                const originalText = buttonElement.textContent;
+                buttonElement.textContent = 'Copied!';
+                setTimeout(() => {
+                    buttonElement.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        document.querySelectorAll("#title, #description, #features-container input, #specs-container input").forEach((el) => {
+            el.addEventListener("input", generate);
+        });
+
+        // Initial generation
+        generate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<div id="frg-d-main">
+    <h3 class="frg-d-title">{{title}}</h3>
+    <p class="frg-d-text">
+        {{description}}
+    </p>
+    <h3 class="frg-d-subtitle">Features</h3>
+    <ul class="frg-d-bullets">
+        {{#each features}}
+        <li>
+            {{this}}
+            {{#if @last}}
+            <br />
+            <br />
+            {{/if}}
+        </li>
+        {{/each}}
+    </ul>
+    <figure class="frg-d-specs">
+        <table class="frg-d-specs-table">
+            <tbody>
+                {{#each specs}}
+                <tr>
+                    <th class="frg-d-spec-item">{{this.label}}</th>
+                    <td class="frg-d-spec-value">{{this.value}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </figure>
+</div>

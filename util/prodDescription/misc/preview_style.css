@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web");
+
+div#preview {
+    font-family: "Titillium Web", sans-serif !important;
+}
+
+div#preview h1,
+div#preview h2,
+div#preview h3,
+div#preview h4,
+div#preview h5,
+div#preview h6 {
+    font-weight: 600;
+}
+
+div#preview p {
+    margin-bottom: 1rem;
+}
+
+div#preview ul,
+ol {
+    margin-top: 0rem;
+    margin-bottom: 2.75rem;
+}
+
+div#preview ul > li,
+div#preview ol > li {
+    margin-top: 0rem;
+    margin-bottom: 0.25rem;
+}
+
+div#preview ul {
+    margin-bottom: 1px !important;
+}
+
+div#preview figure {
+    margin: 0;
+}
+div#preview table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    max-width: 100%;
+}
+
+div#preview table th {
+    text-align: left;
+}
+
+div#preview table > tbody > tr > th,
+div#preview table > tfoot > tr > th,
+div#preview table > tbody > tr > td,
+div#preview table > tfoot > tr > td {
+    vertical-align: top;
+}
+
+div#preview table > thead > tr > th,
+div#preview table > thead > tr > td {
+    vertical-align: bottom;
+}
+
+div#preview table > thead > tr > th,
+div#preview table > tbody > tr > th,
+div#preview table > tfoot > tr > th,
+div#preview table > thead > tr > td,
+div#preview table > tbody > tr > td,
+div#preview table > tfoot > tr > td {
+    padding: 11px 11px;
+}
