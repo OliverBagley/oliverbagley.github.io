@@ -1,350 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product Description Generator</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
-    <style>
-        html {
-            height: 100%;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100%;
-            padding: 2rem;
-        }
-        .main-content {
-            flex: 1;
-        }
-        .site-footer {
-            text-align: center;
-            padding: 1rem 0;
-            font-size: 12px;
-            color: #888;
-        }
-        #preview {
-            border: 1px solid #ccc;
-            padding: 1rem;
-            min-height: 500px;
-            height: fit-content!important;
-            background: #f8f9fa;
-            color: #2d4843!important;
-        }
-        .code-box-wrapper {
-            position: relative;
-        }
-        .code-box {
-            width: 100%;
-            font-family: monospace;
-            font-size: 12px;
-            white-space: pre-wrap;
-            min-height: 250px !important;
-        }
-        .copy-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-        /* Preview Styles */
-        @import url("https://fonts.googleapis.com/css?family=Titillium+Web");
-        div#preview {
-            font-family: "Titillium Web", sans-serif !important;
-        }
-        div#preview h1,
-        div#preview h2,
-        div#preview h3,
-        div#preview h4,
-        div#preview h5,
-        div#preview h6 {
-            font-weight: 600;
-        }
-        div#preview p {
-            margin-bottom: 1rem;
-        }
-        div#preview ul,
-        div#preview ol {
-            margin-top: 0rem;
-            margin-bottom: 2.75rem;
-        }
-        div#preview ul>li,
-        div#preview ol>li {
-            margin-top: 0rem;
-            margin-bottom: 0.25rem;
-        }
-        div#preview ul {
-            margin-bottom: 1px !important;
-        }
-        div#preview figure {
-            margin: 0;
-        }
-        div#preview table {
-            width: 100%;
-            border-collapse: collapse;
-            border-spacing: 0;
-            max-width: 100%;
-        }
-        div#preview table th,
-        div#preview table td {
-            text-align: left!important;
-        }
-        div#preview table>thead>tr>th,
-        div#preview table>tbody>tr>th,
-        div#preview table>tfoot>tr>th,
-        div#preview table>thead>tr>td,
-        div#preview table>tbody>tr>td,
-        div#preview table>tfoot>tr>td {
-            padding: 11px 11px;
-        }
-    </style>
-</head>
-<body>
-    <section class="section main-content">
-        <div class="container is-fluid">
-            <h1 class="title">Product Description Generator</h1>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Product Description Generator</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:400,600" />
+        <style>
+            html,
+            body { height: 100%; background-color: #fcfcfc; color: #2d4843 !important; }
+            body { display: flex; flex-direction: column; }
+            hr { display: block; height: 1px; margin: 1rem 0; }
+            .column { padding: 0.35rem !important; }
+            .main-content { flex: 1; }
+            .section { padding: 3rem 1.5rem; }
+            .site-footer { padding: 2rem; text-align: center; font-size: 0.8rem; color: #b5b5b5; background: #fcfcfc; }
+            /* Input Styles */
+                        .input,
+                        .textarea { box-shadow: none; font-size: 0.8rem; }
+            .field.has-addons { margin-bottom: 0.75rem !important; }
+            /* Readonly inputs specific styling */
+                        .input[readonly] { background-color: #f5f5f5; cursor: not-allowed; color: #7a7a7a; }
+            /* Preview Area */
+                        #preview { background: #ffffff; color: #2d4843 !important; border: 1px solid #e1e1e1; border-radius: 8px; padding: 2rem; font-family: "Titillium Web", sans-serif; margin-bottom: 2rem; }
+            #preview h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.75rem; line-height: 1.2; }
+            #preview h3 { font-size: 1.25rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+            #preview p { margin-bottom: 1rem; line-height: 1.5; }
+            #preview ul { list-style: disc inside; margin-bottom: 1.5rem; }
+            #preview table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+            #preview th,
+                        #preview td { padding: 0.5rem 1rem 0.25rem 0!important; border-bottom: 1px solid #eee; text-align: left; }
+            #preview th { font-weight: 600; width: 40%; }
+            /* Output Code Box */
+                        .html-main-output { display: none !important; }
+            .code-box-wrapper { display: flex; align-items: stretch; gap: 0.5rem; max-width: 100%; }
+            .minified-code-box { flex: 1; min-width: 0; /* Critical for preventing flex overflow with pre text */
+                            white-space: pre; overflow-x: auto; overflow: hidden; font-family: monospace; font-size: 0.8rem; padding: 0.35em; resize: none; min-height: 2rem !important; max-height: 2rem !important; height: auto; }
+            .copy-button { height: auto; }
+            .d-small { height: 2.5em !important; width: 2.5em; padding: 0 !important; font-size: 0.8rem !important; }
+            .button.is-small { border-radius: 6px !important; }
+            .note { font-size: 0.75rem; color: #888; margin-bottom: 0.5rem; margin-top: -0.25rem; line-height: 1.4; }
+        </style>
+    </head>
+    <body>
+        <section class="section main-content">
+            <div class="container">
+                <h1 class="title is-3 has-text-grey-dark mb-6">Product Description Generator</h1>
 
-            <div class="columns">
-                <!-- Input Column -->
-                <div class="column is-half">
-                    <h2 class="subtitle">Input</h2>
-                    <div class="field">
-                        <label class="label" for="title">Title</label>
-                        <div class="control">
-                            <input class="input" type="text" id="title" value="ADVENT Medium Cage Clutch Rear Derailleur" />
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label" for="description">Description</label>
-                        <div class="control">
-                            <textarea class="textarea" id="description" rows="10">Designed with real life riders in mind, the ADVENT rear derailleur packs trail-ready features into the most attainable wide range drivetrain on the market. The clutch uses a proprietary ratchet-and-pawl tension assembly for more durable and stronger chain management over rough terrain. This modular design is also easily adjustable and fully repairable. The derailleur kinematics are also precisely tuned to use a more direct cable path, making the shifting response consistent across all gears. With bombproof construction capable of handling the realest mountain bike abuse, ADVENT competes favorably with drivetrains that cost twice as much.</textarea>
-                        </div>
-                    </div>
+                <div class="columns is-variable is-8">
+                    <!-- Input Column -->
+                    <div class="column is-6" style="padding-right: 1rem !important">
+                        <h2 class="title is-5">Content</h2>
 
-                    <hr />
-
-                    <h3 class="subtitle is-4">Features</h3>
-                    <div id="features-container">
-                        <div class="field has-addons mb-2">
-                            <div class="control is-expanded">
-                                <input class="input" type="text" value="Reliable ratchet-and-pawl clutch is easily adjustable and repairable" />
-                            </div>
+                        <div class="field">
+                            <label class="label">Title</label>
+                            <p class="note">Do not include model numbers, SKUs, or specific details here.</p>
                             <div class="control">
-                                <button class="button is-danger" type="button" onclick="removeParent(this, 2)">Remove</button>
+                                <input
+                                    class="input"
+                                    id="title"
+                                    type="text"
+                                    value="Product title, do not include model numbers or SKUs here, keep generic and range/model agnostic"
+                                />
                             </div>
                         </div>
-                        <div class="field has-addons mb-2">
-                            <div class="control is-expanded">
-                                <input class="input" type="text" value="Direct path cable routing for smooth and responsive shifting" />
-                            </div>
+
+                        <div class="field">
+                            <label class="label">Description</label>
+                        <p class="note">Aim for a descriptive paragraph about the product and include a more detailed description or any key points / essential information in this text. <br>Aim for ~300-600 characters.</p>
                             <div class="control">
-                                <button class="button is-danger" type="button" onclick="removeParent(this, 2)">Remove</button>
+                                <textarea class="textarea" id="description" rows="6">This should be a short and descriptive paragraph about the product, try to include a more rich description of features and any SEO touchpoints or keywords here to help improve rankings, eg "Lightweight and ergonomic, short gear shifters, designed to make learning to shift gears easier for children aged 3-7 years. These single action..." etc. Try to keep concise ~ 300 - 600 characters.</textarea
+                                >
                             </div>
                         </div>
-                    </div>
-                    <button class="button is-primary" type="button" onclick="addFeature()">Add Feature</button>
 
-                    <hr />
+                        <hr />
 
-                    <h3 class="subtitle is-4">Specs</h3>
-                    <div id="specs-container">
-                        <div class="columns is-mobile mb-2">
-                            <div class="column is-5">
-                                <input class="input" type="text" placeholder="Label" value="Group" />
+                        <h3 class="title is-6">Features</h3>
+                        <p class="note">Required, should be key points/features for easy glanceable reference</p>
+                        <div id="features-container" class="mb-4">
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <input
+                                        class="input"
+                                        type="text"
+                                        value="Reliable ratchet-and-pawl clutch is easily adjustable and repairable"
+                                    />
+                                </div>
+                                <div class="control">
+                                    <button class="button is-danger is-outlined d-small" type="button" onclick="removeParent(this, 2)">
+                                        ✕
+                                    </button>
+                                </div>
                             </div>
-                            <div class="column is-5">
-                                <input class="input" type="text" placeholder="Value" value="ADVENT" />
-                            </div>
-                            <div class="column is-2">
-                                <button class="button is-danger" type="button" onclick="removeParent(this, 2)">Remove</button>
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <input class="input" type="text" value="Direct path cable routing for smooth and responsive shifting" />
+                                </div>
+                                <div class="control">
+                                    <button class="button is-danger is-outlined d-small" type="button" onclick="removeParent(this, 2)">
+                                        ✕
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="columns is-mobile mb-2">
-                            <div class="column is-5">
-                                <input class="input" type="text" placeholder="Label" value="Speed" />
+                        <button class="button is-small is-primary is-info" onclick="addFeature()">+ Add Feature</button>
+
+                        <hr />
+
+                        <h3 class="title is-6">Specs</h3>
+                        <p class="note">SKU and MPN are required, other entries can be customised</p>
+
+                        <!-- Fixed SKU and MPN Inputs -->
+                        <div class="columns is-mobile is-vcentered mb-2">
+                            <div class="column">
+                                <input class="input" type="text" value="SKU" readonly />
                             </div>
-                            <div class="column is-5">
-                                <input class="input" type="text" placeholder="Value" value="9-Speed" />
-                            </div>
-                            <div class="column is-2">
-                                <button class="button is-danger" type="button" onclick="removeParent(this, 2)">Remove</button>
+                            <div class="column">
+                                <input class="input" id="sku-val" type="text" value="RD-RDE-6195-1" />
                             </div>
                         </div>
+                        <div class="columns is-mobile is-vcentered mb-2">
+                            <div class="column">
+                                <input class="input" type="text" value="MPN" readonly />
+                            </div>
+                            <div class="column">
+                                <input class="input" id="mpn-val" type="text" value="RD-M6195M" />
+                            </div>
+                        </div>
+
+                        <div id="specs-container" class="mb-4">
+                            <div class="columns is-mobile is-vcentered mb-2">
+                                <div class="column">
+                                    <input class="input" type="text" value="Material" />
+                                </div>
+                                <div class="column">
+                                    <input class="input" type="text" value="Aluminium alloy" />
+                                </div>
+                                <div class="column is-narrow">
+                                    <button class="button is-danger is-outlined d-small" type="button" onclick="removeParent(this, 2)">
+                                        ✕
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="button is-small is-primary is-info" onclick="addSpec()">+ Add Spec</button>
+
+                        <hr />
+
+                        <h3 class="title is-6">Frog Bike Compatibility</h3>
+                        <p class="note">Not required, but helpful for some items, leave blank if not needed</p>
+                        <div id="compatibility-container" class="mb-4">
+                            <div class="columns is-mobile is-vcentered mb-2">
+                                <div class="column">
+                                    <input class="input" type="text" value="Frog 40" />
+                                </div>
+                                <div class="column">
+                                    <input class="input" type="text" value="L-FH40" />
+                                </div>
+                                <div class="column is-narrow">
+                                    <button class="button is-danger is-outlined d-small" type="button" onclick="removeParent(this, 2)">
+                                        ✕
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="button is-small is-primary is-info" onclick="addCompatibility()">+ Add Model</button>
                     </div>
-                    <button class="button is-primary" type="button" onclick="addSpec()">Add Spec</button>
+
+                    <!-- Output Column -->
+                    <div class="column is-6" style="padding-left: 1rem !important">
+                        <h2 class="title is-5">Preview</h2>
+                        <div id="preview"></div>
+                    </div>
                 </div>
-
-                <!-- Output Column -->
-                <div class="column is-half">
-                    <h2 class="subtitle">Preview</h2>
-                    <div id="preview" class="content"></div>
-
-                    <h2 class="subtitle mt-4">HTML Output</h2>
-                    <div class="code-box-wrapper">
-                        <textarea id="html-output" class="textarea code-box" readonly></textarea>
-                        <button class="button is-light copy-button" onclick="copyToClipboard('html-output', this)">
-                            Copy
-                        </button>
+                <br />
+                <div class="columns is-variable is-8">
+                    <div class="column">
+                        <h2 class="title is-6 mt-5">HTML Output</h2>
+                        <div class="code-box-wrapper">
+                            <textarea
+                                id="minified-html-output"
+                                class="textarea minified-code-box"
+                                readonly
+                                onclick="this.select()"
+                            ></textarea>
+                            <button class="button is-small is-info copy-button" onclick="copyToClipboard('minified-html-output', this)">
+                                Copy
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="site-footer">
-        2026 - www.oliverbagley.com
-    </footer>
+        <footer class="site-footer">2026 - www.oliverbagley.com</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
+        <script id="description-template" type="text/x-handlebars-template">
+            <div id="frg-d-main">
+                <style> #frg-d-main th, #frg-d-main td{ padding: 0.5rem 1rem 0.25rem 0!important; border-bottom: 1px solid #eee; text-align: left;} #frg-d-main th{ font-weight: 600; width: 40%;}</style>
+                <h2 class="frg-d-title">{{title}}</h2>
+                <p class="frg-d-text">{{description}}</p>
+                {{#if features.length}}
+                    <h3 class="frg-d-subtitle">Features</h3>
+                    <ul class="frg-d-bullets">
+                        {{#each features}}<li>{{this}}</li>{{/each}}
+                    </ul>
+                {{/if}}
+                {{#if specs.length}}
+                <h3 class="frg-d-subtitle" style="margin-bottom: .25rem;">Details</h3>
+                    <figure class="frg-d-specs">
+                        <table class="frg-d-specs-table"style="margin-top: 0!important;">
+                            <tbody>
+                                {{#each specs}}
+                                    <tr>
+                                        <th class="frg-d-spec-item">{{this.label}}</th>
+                                        <td class="frg-d-spec-value">{{this.value}}</td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </figure>
+                {{/if}}
+                {{#if compatibility.length}}
+                    <h3 class="frg-d-subtitle" style="margin-bottom: .25rem;">Frog Bike Compatibility</h3>
+                    <figure class="frg-d-compat">
+                        <table class="frg-d-compat-table" style="margin-top: 0!important;">
+                            <tbody>
+                                {{#each compatibility}}
+                                    <tr>
+                                        <th class="frg-d-compat-item">{{this.label}}</th>
+                                        <td class="frg-d-compat-value">{{this.value}}</td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </figure>
+                {{/if}}
+            </div>
+        </script>
 
-    <script id="description-template" type="text/x-handlebars-template">
-        <div id="frg-d-main">
-            <h3 class="frg-d-title">{{title}}</h3>
-            <p class="frg-d-text">
-                {{description}}
-            </p>
-            <h4 class="frg-d-subtitle">Features</h4>
-            <ul class="frg-d-bullets">
-                {{#each features}}
-                <li>{{this}}</li>
-                {{/each}}
-            </ul>
-            <figure class="frg-d-specs">
-                <table class="frg-d-specs-table">
-                    <tbody>
-                        {{#each specs}}
-                        <tr>
-                            <th class="frg-d-spec-item">{{this.label}}</th>
-                            <td class="frg-d-spec-value">{{this.value}}</td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            </figure>
-        </div>
-    </script>
+        <script>
+            const titleInput = document.getElementById("title");
+            const descriptionInput = document.getElementById("description");
+            const featuresContainer = document.getElementById("features-container");
+            const specsContainer = document.getElementById("specs-container");
+            const compatibilityContainer = document.getElementById("compatibility-container");
+            const skuInput = document.getElementById("sku-val");
+            const mpnInput = document.getElementById("mpn-val");
+            const preview = document.getElementById("preview");
+            const htmlOutput = document.getElementById("html-output");
+            const minifiedHtmlOutput = document.getElementById("minified-html-output");
 
-    <script>
-        const titleInput = document.getElementById("title");
-        const descriptionInput = document.getElementById("description");
-        const featuresContainer = document.getElementById("features-container");
-        const specsContainer = document.getElementById("specs-container");
-        const preview = document.getElementById("preview");
-        const htmlOutput = document.getElementById("html-output");
+            const template = Handlebars.compile(document.getElementById("description-template").innerHTML);
 
-        const templateSource = document.getElementById("description-template").innerHTML.trim();
-        const template = Handlebars.compile(templateSource);
+            function generate() {
+                const features = Array.from(featuresContainer.querySelectorAll("input"))
+                .map((i) => i.value)
+                .filter((v) => v.trim() !== "");
 
-        function formatHtml(html) {
-            const tab = '  ';
-            let result = '';
-            let indent = '';
-
-            html.split(/>\s*</).forEach(function(element) {
-                if (element.match(/^\/\w/)) {
-                    indent = indent.substring(tab.length);
-                }
-
-                result += indent + '<' + element + '>\r\n';
-
-                if (element.match(/^<?\w[^>]*[^\/]$/) && !element.startsWith("input")) {
-                   indent += tab;
-                }
-            });
-
-            return result.substring(1, result.length - 3);
-        }
-
-        function generate() {
-            const title = titleInput.value;
-            const description = descriptionInput.value;
-
-            const features = Array.from(featuresContainer.querySelectorAll("input"))
-                .map((input) => input.value)
-                .filter((val) => val.trim() !== "");
-
-            const specs = [];
-            specsContainer.querySelectorAll(".columns").forEach((row) => {
-                const inputs = row.querySelectorAll("input");
-                if (inputs.length > 1) {
-                    const label = inputs[0].value;
-                    const value = inputs[1].value;
-                    if (label.trim() !== "" && value.trim() !== "") {
-                        specs.push({ label, value });
+                // Dynamic specs
+                const specs = [];
+                specsContainer.querySelectorAll(".columns").forEach((row) => {
+                    const [l, v] = row.querySelectorAll("input");
+                    if (l && v && l.value.trim() && v.value.trim()) {
+                        specs.push({ label: l.value, value: v.value });
                     }
+                });
+                // Add Mandatory MPN and SKU last
+                if (mpnInput.value.trim()) specs.push({ label: "MPN", value: mpnInput.value });
+                if (skuInput.value.trim()) specs.push({ label: "SKU", value: skuInput.value });
+
+                // Compatibility
+                const compatibility = [];
+                compatibilityContainer.querySelectorAll(".columns").forEach((row) => {
+                    const [l, v] = row.querySelectorAll("input");
+                    if (l && v && l.value.trim() && v.value.trim()) {
+                        compatibility.push({ label: l.value, value: v.value.toUpperCase() });
+                    }
+                });
+
+                const html = template({
+                    title: titleInput.value,
+                    description: descriptionInput.value,
+                    features,
+                    specs,
+                    compatibility,
+                });
+
+                preview.innerHTML = html;
+                if (htmlOutput) htmlOutput.value = html;
+                minifiedHtmlOutput.value = html.replace(/\s+/g, " ").replace(/> </g, "><").trim();
+            }
+
+            function addFeature() {
+                const div = document.createElement("div");
+                div.className = "field has-addons";
+                div.innerHTML = `
+                <div class="control is-expanded"><input class="input" type="text" placeholder="New Feature"></div>
+                <div class="control"><button class="button is-danger is-outlined d-small" type="button" onclick="removeParent(this, 2)">✕</button></div>`;
+                featuresContainer.appendChild(div);
+                setupPlaceholder(div.querySelector("input"));
+                div.querySelector("input").focus();
+            }
+
+            function addSpec() {
+                const div = document.createElement("div");
+                div.className = "columns is-mobile is-vcentered mb-2";
+                div.innerHTML = `
+                <div class="column"><input class="input" type="text" placeholder="Label"></div>
+                <div class="column"><input class="input" type="text" placeholder="Value"></div>
+                <div class="column is-narrow"><button class="button is-danger is-outlined d-small" type="button" onclick="removeParent(this, 2)">✕</button></div>`;
+                specsContainer.appendChild(div);
+                div.querySelectorAll("input").forEach(setupPlaceholder);
+                div.querySelector("input").focus();
+            }
+
+            function addCompatibility() {
+                const div = document.createElement("div");
+                div.className = "columns is-mobile is-vcentered mb-2";
+                div.innerHTML = `
+                <div class="column"><input class="input" type="text" placeholder="Model (e.g. Frog 40)"></div>
+                <div class="column"><input class="input" type="text" placeholder="ID (e.g. L-FH40)"></div>
+                <div class="column is-narrow"><button class="button is-danger is-outlined d-small" type="button" onclick="removeParent(this, 2)">✕</button></div>`;
+                compatibilityContainer.appendChild(div);
+                div.querySelectorAll("input").forEach(setupPlaceholder);
+                div.querySelector("input").focus();
+            }
+
+            function removeParent(btn, level) {
+                let el = btn;
+                while (level-- > 0) el = el.parentElement;
+                el.remove();
+                generate();
+            }
+
+            function copyToClipboard(id, btn) {
+                navigator.clipboard.writeText(document.getElementById(id).value);
+                const original = btn.innerText;
+                btn.innerText = "Copied!";
+                setTimeout(() => (btn.innerText = original), 1500);
+            }
+
+            // Use event delegation for all inputs
+            document.body.addEventListener("input", (e) => {
+                if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+                    generate();
                 }
             });
 
-            const data = { title, description, features, specs };
-            const rawResult = template(data);
+            function setupPlaceholder(el) {
+                el.dataset.placeholder = "true";
+                el.dataset.initialValue = el.value;
 
-            preview.innerHTML = rawResult;
-            htmlOutput.value = formatHtml(rawResult);
-        }
+                el.addEventListener("focus", function () {
+                    if (this.dataset.placeholder === "true") {
+                        this.value = "";
+                        this.dataset.placeholder = "false";
+                    }
+                });
 
-        function addFeature() {
-            const div = document.createElement("div");
-            div.className = "field has-addons mb-2";
-            div.innerHTML = `
-                <div class=\"control is-expanded\">
-                    <input class=\"input\" type=\"text\" placeholder=\"New Feature\">
-                </div>
-                <div class=\"control\">
-                    <button class=\"button is-danger\" type=\"button\" onclick=\"removeParent(this, 2)\">Remove</button>
-                </div>
-            `;
-            featuresContainer.appendChild(div);
-            div.querySelector("input").addEventListener("input", generate);
-        }
-
-        function addSpec() {
-            const div = document.createElement("div");
-            div.className = "columns is-mobile mb-2";
-            div.innerHTML = `
-                <div class=\"column is-5\">
-                    <input class=\"input\" type=\"text\" placeholder=\"Label\">
-                </div>
-                <div class=\"column is-5\">
-                    <input class=\"input\" type=\"text\" placeholder=\"Value\">
-                </div>
-                <div class=\"column is-2\">
-                    <button class=\"button is-danger\" type=\"button\" onclick=\"removeParent(this, 2)\">Remove</button>
-                </div>
-            `;
-            specsContainer.appendChild(div);
-            div.querySelectorAll("input").forEach((input) => {
-                input.addEventListener("input", generate);
-            });
-        }
-
-        function removeParent(element, levels = 1) {
-            let parent = element;
-            for (let i = 0; i < levels; i++) {
-                parent = parent.parentElement;
+                el.addEventListener("blur", function () {
+                    if (this.value.trim() === "") {
+                        this.value = this.dataset.initialValue;
+                        this.dataset.placeholder = "true";
+                        generate();
+                    }
+                });
             }
-            parent.remove();
+
+            // Smart placeholder logic init
+            document
+            .querySelectorAll(
+                "#title, #description, #features-container input, #sku-val, #mpn-val, #specs-container input, #compatibility-container input",
+            )
+            .forEach(setupPlaceholder);
+
             generate();
-        }
-
-        function copyToClipboard(elementId, buttonElement) {
-            const textarea = document.getElementById(elementId);
-            navigator.clipboard.writeText(textarea.value).then(() => {
-                const originalText = buttonElement.textContent;
-                buttonElement.textContent = 'Copied!';
-                setTimeout(() => {
-                    buttonElement.textContent = originalText;
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-            });
-        }
-
-        document.querySelectorAll("#title, #description, #features-container input, #specs-container input").forEach((el) => {
-            el.addEventListener("input", generate);
-        });
-
-        // Initial generation
-        generate();
-    </script>
-</body>
+        </script>
+    </body>
 </html>
