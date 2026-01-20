@@ -285,14 +285,14 @@
         function addFeature() {
             const div = document.createElement("div");
             div.className = "field has-addons mb-2";
-            div.innerHTML = "
+            div.innerHTML = `
                 <div class=\"control is-expanded\">
                     <input class=\"input\" type=\"text\" placeholder=\"New Feature\">
                 </div>
                 <div class=\"control\">
                     <button class=\"button is-danger\" type=\"button\" onclick=\"removeParent(this, 2)\">Remove</button>
                 </div>
-            ";
+            `;
             featuresContainer.appendChild(div);
             div.querySelector("input").addEventListener("input", generate);
         }
@@ -300,7 +300,7 @@
         function addSpec() {
             const div = document.createElement("div");
             div.className = "columns is-mobile mb-2";
-            div.innerHTML = "
+            div.innerHTML = `
                 <div class=\"column is-5\">
                     <input class=\"input\" type=\"text\" placeholder=\"Label\">
                 </div>
@@ -310,7 +310,7 @@
                 <div class=\"column is-2\">
                     <button class=\"button is-danger\" type=\"button\" onclick=\"removeParent(this, 2)\">Remove</button>
                 </div>
-            ";
+            `;
             specsContainer.appendChild(div);
             div.querySelectorAll("input").forEach((input) => {
                 input.addEventListener("input", generate);
